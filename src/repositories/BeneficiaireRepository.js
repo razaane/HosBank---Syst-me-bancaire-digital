@@ -1,4 +1,4 @@
-const db = require("../db/connexion");
+const db = require("../config/connexion");
 const Beneficiaire =require("../models/Beneficiaire");
 
 async function findBeneficiaireById(clientId) {
