@@ -143,3 +143,12 @@ CREATE TABLE historiques_operation (
     date_operation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (compte_id) REFERENCES comptes_bancaires(id) ON DELETE CASCADE
 );
+
+
+USE hosbank;
+
+INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, email_verifie)
+VALUES ('Test', 'Client', 'test.client@example.com', 'motdepassehash', 'client', TRUE);
+
+INSERT INTO clients (id, adresse, date_naissance, cin)
+VALUES (1, 'Adresse test', '2000-01-01', 'TEST123');
