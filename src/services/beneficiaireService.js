@@ -1,6 +1,6 @@
 const beneficiaireRepository = require("../repositories/beneficiaireRepository");
 
-async function listBeneficiaires(clienId) {
+async function listerBeneficiaires(clienId) {
     return await beneficiaireRepository.findBeneficiaireById(clienId);
 }
 
@@ -16,7 +16,7 @@ async function supprimerBeneficiaire(id) {
 }
 
 module.exports={
-    listBeneficiaires,
+    listerBeneficiaires,
     ajouterBeneficiaire,
     supprimerBeneficiaire,
 }

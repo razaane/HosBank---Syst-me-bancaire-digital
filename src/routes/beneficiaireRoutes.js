@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const beneficiaireController =require("../controllers/beneficiaireController");
 
-router.get('/beneficiaire',beneficiaireController.list);
-router.post('/beneficiaire',beneficiaireController.add);
-router.post('/beneficiaire/:id/supprimer',beneficiaireController.remove);
+router.get('/beneficiaires', beneficiaireController.list);
+router.get('/beneficiaires/ajouter', beneficiaireController.showAddForm);
+router.post('/beneficiaires', beneficiaireController.add);
+router.post('/beneficiaires/:id/supprimer', beneficiaireController.remove);
 
 module.exports=router ;
 

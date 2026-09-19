@@ -7,6 +7,8 @@
 <body>
   <h1>Mes bénéficiaires</h1>
 
+  <a href="/beneficiaires/ajouter">Ajouter un bénéficiaire</a>
+
   <ul>
     <% beneficiaires.forEach(b => { %>
       <li>
@@ -17,13 +19,5 @@
       </li>
     <% }) %>
   </ul>
-
-  <h2>Ajouter un bénéficiaire</h2>
-  <form action="/beneficiaires" method="POST">
-    <input type="text" name="nom" placeholder="Nom" required>
-    <input type="text" name="rib" placeholder="RIB" required>
-    <input type="text" name="banque" placeholder="Banque">
-    <button type="submit">Ajouter</button>
-  </form>
 </body>
 </html>
