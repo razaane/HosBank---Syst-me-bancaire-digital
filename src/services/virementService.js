@@ -13,17 +13,39 @@ async function ajouterVirement(data) {
     if(!beneficiaireId){
         throw new Error("le bénéficiaire est obligatoire");
     }
-    const [rows]= db.query("SELECT solde FROM comptes_bancaires WHERE id =?",[compteId]);
-    if(rows.length === 0){
-        throw new Error("le compte est introvablle");
-    }
-    const solde = Number(rows[0].solde);
+  
+    const connection = await db.getConnection();
+    try {
+        await connection.beginTransaction();
 
-    if(solde < Number(montant)){
-        throw new Error('Solde insuffisant pour effectuer ce virement.');
-    }
+        const [rows] = await connection.query(
+        "SELECT solde FROM comptes_bancaires WHERE id = ? FOR UPDATE",
+        [compteId]
+        );
+        if (rows.length === 0) throw new Error("Le compte est introuvable.");
 
-    return await virementRepository.create({ compteId, beneficiaireId, montant, motif });
+        const solde = Number(rows[0].solde);
+        if (solde < Number(montant)) throw new Error("Solde insuffisant pour effectuer ce virement.");
+
+        await connection.query(
+        "UPDATE comptes_bancaires SET solde = solde - ? WHERE id = ?",
+        [montant, compteId]
+        );
+
+        const [result] = await connection.query(
+        "INSERT INTO virements (compte_source_id, beneficiaire_id, montant, motif) VALUES (?, ?, ?, ?)",
+        [compteId, beneficiaireId, montant, motif]
+        );
+
+        await connection.commit();
+        return result.insertId;
+
+    } catch (err) {
+        await connection.rollback();
+        throw err;
+    } finally {
+        connection.release();
+    }
 }
 
 module.exports={
