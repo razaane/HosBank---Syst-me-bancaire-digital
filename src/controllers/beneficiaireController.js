@@ -2,7 +2,7 @@ const beneficiaireService = require('../services/beneficiaireService');
 
 async function list(req, res) {
   try {
-    const clientId = req.session.userId; // cohérent avec add()
+    const clientId = req.session.userId;
     const beneficiaires = await beneficiaireService.listerBeneficiaires(clientId);
     res.render('client/beneficiaire/liste', { beneficiaires });
   } catch (err) {
