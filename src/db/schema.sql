@@ -153,4 +153,4 @@ VALUES ('Test', 'Client', 'test.client@example.com', 'motdepassehash', 'client',
 -- chouf l id li khrej men INSERT li fo9 (khassou ykoun 1 ila la table kant khawya)
 INSERT INTO clients (id, adresse, date_naissance, cin)
 VALUES (1, 'Adresse test', '2000-01-01', 'TEST123');
->>>>>>> feature-beneficiaires
+
