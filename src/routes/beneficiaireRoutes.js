@@ -6,6 +6,6 @@ router.get('/beneficiaires',authMiddleware, beneficiaireController.list)
 router.get('/beneficiaires/ajouter',authMiddleware, beneficiaireController.showAddForm)
 router.post('/beneficiaires',authMiddleware,beneficiaireController.add)
 router.post('/beneficiaires/:id/supprimer',authMiddleware, beneficiaireController.remove)
-module.exports=router 
+module.exports=router;
 
 
