@@ -10,3 +10,4 @@ class Beneficiaire{
 }
 
 module.exports=Beneficiaire;
+

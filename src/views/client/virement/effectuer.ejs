@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Effectuer un virement</title>
+</head>
+<body>
+  <h1>Effectuer un virement</h1>
+
+  <form action="/virements" method="POST">
+    <label>Bénéficiaire (id) : <input type="text" name="beneficiaireId" required></label><br>
+    <label>Montant : <input type="number" step="0.01" name="montant" required></label><br>
+    <label>Motif : <input type="text" name="motif"></label><br>
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <a href="/virements">Voir mes virements</a>
+</body>
+</html>

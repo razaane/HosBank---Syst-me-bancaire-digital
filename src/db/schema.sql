@@ -141,7 +141,8 @@ CREATE TABLE historiques_operation (
     type_operation VARCHAR(100) NOT NULL,
     montant DECIMAL(15,2),
     date_operation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (compte_id) REFERENCES compte_bancaire(id) ON DELETE CASCADE
+
+    FOREIGN KEY (compte_id) REFERENCES comptes_bancaires(id) ON DELETE CASCADE
 );
 
 
@@ -149,8 +150,4 @@ USE hosbank;
 
 INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, email_verifie)
 VALUES ('Test', 'Client', 'test.client@example.com', 'motdepassehash', 'client', TRUE);
-
--- chouf l id li khrej men INSERT li fo9 (khassou ykoun 1 ila la table kant khawya)
-INSERT INTO clients (id, adresse, date_naissance, cin)
-VALUES (1, 'Adresse test', '2000-01-01', 'TEST123');
 
