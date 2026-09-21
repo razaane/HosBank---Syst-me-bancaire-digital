@@ -2,7 +2,11 @@ const beneficiaireService = require('../services/beneficiaireService');
 
 async function list(req, res) {
   try {
-    const clientId = req.session.userId ;
+      const data = {
+        ...req.body,
+        clientId: req.session.client.id  
+      };
+
     const beneficiaires = await beneficiaireService.listerBeneficiaires(clientId);
     res.render('client/beneficiaire/liste', { beneficiaires });
   } catch (err) {
