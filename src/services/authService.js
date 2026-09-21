@@ -1,12 +1,14 @@
-const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcrypt');
-const { createUser, verifyUserToken, findByEmail } = require('../repositories/userRepository');
+const { v4: uuidv4 } = require('uuid')
+const bcrypt = require('bcrypt')
+const { createUser, verifyUserToken, findByEmail } = require('../repositories/userRepository')
 
-const { createUser, verifyUserToken, findByEmail, createClient } = require('../repositories/userRepository');
+const { createUser, verifyUserToken, findByEmail, createClient } = require('../repositories/userRepository')
 
 async function register(formData) {
-  const tokenVerification = uuidv4();
-  const motDePasse = await bcrypt.hash(formData.motPass, 10);
+  const tokenVerification = uuidv4()
+
+  const motDePasse = await bcrypt.hash(formData.motPass, 10)
+
 
   const userData = {
     nom: formData.nom,
@@ -17,14 +19,15 @@ async function register(formData) {
     tokenVerification
   };
 
-  const userId = await createUser(userData);
-  await createClient(userId);
+  const userId = await createUser(userData)
 
-  return userId;
+  await createClient(userId)
+
+  return userId
 }
 
 async function login(formData) {
-  const { email, motPass } = formData;
+  const { email, motPass } = formData
 
   const user = await findByEmail(email);
   if (!user) throw new Error('Email ou mot de passe invalide.');
