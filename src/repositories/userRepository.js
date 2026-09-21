@@ -1,50 +1,39 @@
-import pool from '../config/db.js'
+const db = require('../config/connexion');
+const Utilisateur = require('../models/Utilisateur');
 
-
-export async function findByEmail(email) {
-
-    const [rows]=await pool.execute(
-
-        'SELECT * FROM utilisateurs WHERE EMAIL = ? LIMIT 1',[email]
-     )
-     return rows[0] || null
-    
+async function findByEmail(email) {
+  const [rows] = await db.query(
+    'SELECT * FROM utilisateurs WHERE email = ? LIMIT 1',
+    [email]
+  );
+  return rows[0] ? new Utilisateur(rows[0]) : null;
 }
 
-
-export async function createUser (userData){
-
-const { nom, prenom, email, motPass, roleUtilisateur, tokenVerification } = userData
-
-const [result] = await pool.execute(
-
-    `INSERT INTO utilisateurs (nom, prenom, email,
-      motPass, roleUtilisateur, tokenVerification) 
-      VALUES (?, ?, ?, ?, ?, ?)`,
-    [nom, prenom, email, motPass, roleUtilisateur || 'client', tokenVerification]
-  )
+async function createUser(userData) {
+  const { nom, prenom, email, motDePasse, role, tokenVerification } = userData;
+  const [result] = await db.query(
+    `INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, token_verification)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    [nom, prenom, email, motDePasse, role || 'client', tokenVerification]
+  );
   return result.insertId;
-
-
 }
 
-export async function verifyUserToken(token) {
-  const [rows] = await pool.execute(
-    'SELECT * FROM utilisateurs WHERE tokenVerification = ?',
+async function verifyUserToken(token) {
+  const [rows] = await db.query(
+    'SELECT * FROM utilisateurs WHERE token_verification = ?',
     [token]
   );
-  
   if (rows.length === 0) return null;
 
-  const user = rows[0]
-  await pool.execute(
-    `UPDATE utilisateurs 
-     SET emailVerification = TRUE, actif = TRUE, tokenVerification = NULL 
+  const user = rows[0];
+  await db.query(
+    `UPDATE utilisateurs
+     SET email_verifie = TRUE, actif = TRUE, token_verification = NULL
      WHERE id = ?`,
     [user.id]
   );
-
-  return user
+  return new Utilisateur(user);
 }
 
-// modulexports = {}
+module.exports = { findByEmail, createUser, verifyUserToken };

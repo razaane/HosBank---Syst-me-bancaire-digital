@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/app.js",
-  "type":"module",
   "scripts": {
-     "start": "node src/app.js",
-   "dev": "node --watch src/app.js"
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/razaane/HosBank---Syst-me-bancaire-digital/issues"
   },
-
   "homepage": "https://github.com/razaane/HosBank---Syst-me-bancaire-digital#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
