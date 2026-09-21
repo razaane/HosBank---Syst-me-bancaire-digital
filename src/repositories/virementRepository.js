@@ -2,9 +2,11 @@ const db = require("../config/connexion");
 const Virement = require("../models/Virement");
 
 async function findCompteById(compteId){
-    const [rows] =db.query("SELECT * FROM virements where compte_source_id =? ORDER BY date_virement DESC",[compteId]);
-    return rows.map(row =>new Virement(row))
-
+  const [rows] = await db.query(
+    "SELECT * FROM virements WHERE compte_source_id = ? ORDER BY date_virement DESC",
+    [compteId]
+  );
+  return rows.map(row => new Virement(row));
 }
 
 async function create(data) {

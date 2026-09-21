@@ -2,16 +2,11 @@ const beneficiaireService = require('../services/beneficiaireService');
 
 async function list(req, res) {
   try {
-
-      const data = {
-        ...req.body,
-        clientId: req.session.client.id  
-      };
-
+    const clientId = req.session.userId; // cohérent avec add()
     const beneficiaires = await beneficiaireService.listerBeneficiaires(clientId);
     res.render('client/beneficiaire/liste', { beneficiaires });
   } catch (err) {
-        console.error(err); // temporaire, pour voir l'erreur réelle
+    console.error(err);
     res.status(500).send('Erreur lors du chargement des bénéficiaires.');
   }
 }

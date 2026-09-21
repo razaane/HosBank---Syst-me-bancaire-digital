@@ -151,3 +151,12 @@ USE hosbank;
 INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, email_verifie)
 VALUES ('Test', 'Client', 'test.client@example.com', 'motdepassehash', 'client', TRUE);
 
+-- 1. Vérifier si le client id=5 existe déjà dans la table clients
+SELECT * FROM clients WHERE id = 5;
+
+-- 2. S'il n'existe pas, l'ajouter (clients.id doit correspondre à utilisateurs.id)
+INSERT INTO clients (id) VALUES (5);
+
+-- 3. Créer un compte bancaire fake pour ce client
+INSERT INTO comptes_bancaires (client_id, numero_compte, type_compte, solde, statut, rib)
+VALUES (5, 'TEST002', 'courant', 8000.00, 'actif', 'RIB123456789');

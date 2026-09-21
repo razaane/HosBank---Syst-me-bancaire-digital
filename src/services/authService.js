@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcrypt')
-const { createUser, verifyUserToken, findByEmail } = require('../repositories/userRepository')
 
 const { createUser, verifyUserToken, findByEmail, createClient } = require('../repositories/userRepository')
 

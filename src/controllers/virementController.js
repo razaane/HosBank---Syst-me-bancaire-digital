@@ -1,6 +1,6 @@
 const virementService = require('../services/virementService');
+const beneficiaireService = require('../services/beneficiaireService'); 
 const db = require('../config/connexion');
-
 async function list(req, res) {
   try {
     const [comptes] = await db.query('SELECT id FROM comptes_bancaires WHERE client_id = ? LIMIT 1', [req.session.userId]);
@@ -16,7 +16,14 @@ async function list(req, res) {
 }
 
 async function showAddForm(req, res) {
-  res.render('client/virement/effectuer');
+  try {
+    const clientId = req.session.userId; 
+    const beneficiaires = await beneficiaireService.listerBeneficiaires(clientId);
+    res.render('client/virement/effectuer', { beneficiaires });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur lors du chargement du formulaire.');
+  }
 }
 
 async function add(req, res) {
