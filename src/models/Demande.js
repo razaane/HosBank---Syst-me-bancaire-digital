@@ -10,4 +10,6 @@ class Demande {
     this.donneesSpecifiques = donnees_specifiques;
   }
 }
+
+
 module.exports = Demande;
