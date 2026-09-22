@@ -48,7 +48,7 @@ async function ajouterVirement(data) {
     }
 }
 
-module.exports={
-    listerVirements,
-    ajouterVirement
-}
+// module.exports={
+//     listerVirements,
+//     ajouterVirement
+// }
