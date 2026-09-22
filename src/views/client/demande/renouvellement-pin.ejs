@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Renouvellement du PIN</title>
+</head>
+<body>
+  <h1>Renouvellement / recalcul du PIN</h1>
+
+  <form action="/demandes/renouvellement-pin" method="POST">
+    <label>Choisir la carte :
+      <select name="carteId" required>
+        <% cartes.forEach(c => { %>
+          <option value="<%= c.id %>"><%= c.numero_carte %></option>
+        <% }) %>
+      </select>
+    </label><br>
+    <button type="submit">Envoyer la demande</button>
+  </form>
+
+  <a href="/demandes">Voir mes demandes</a>
+</body>
+</html>
