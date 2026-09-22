@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes demandes</title>
+</head>
+<body>
+  <h1>Mes demandes</h1>
+  <a href="/demandes/carte-virtuelle">Demander une carte virtuelle</a>
+
+  <table border="1">
+    <tr><th>Type</th><th>Date</th><th>Statut</th></tr>
+    <% demandes.forEach(d => { %>
+      <tr>
+        <td><%= d.typeDemande %></td>
+        <td><%= d.dateCreation %></td>
+        <td><%= d.statut %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>
