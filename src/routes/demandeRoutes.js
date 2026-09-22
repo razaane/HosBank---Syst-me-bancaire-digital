@@ -7,4 +7,6 @@ router.get('/demandes/carte-virtuelle', demandeController.showCarteVirtuelleForm
 router.post('/demandes/carte-virtuelle', demandeController.demanderCarteVirtuelle);
 router.get('/demandes/opposition-carte',demandeController.showOppositionForm);
 router.post('/demandes/opposition-carte',demandeController.opposerCarte);
+router.get('/demandes/renouvellement-pin', demandeController.showPinForm);
+router.post('/demandes/renouvellement-pin', demandeController.demanderRenouvellementPin);
 module.exports = router;
