@@ -48,4 +48,12 @@ async function createOppositionCarte(data) {
   }
 }
 
-module.exports = { findByClientId, create ,createOppositionCarte };
+async function createRenouvellementPin(data) {
+  const { clientId, carteId } = data;
+  const [result] = await db.query(
+    'INSERT INTO demandes (client_id, type_demande, donnees_specifiques) VALUES (?, ?, ?)',
+    [clientId, 'renouvellement_pin', JSON.stringify({ carteId })]
+  );
+  return result.insertId;
+}
+module.exports = { findByClientId, create ,createOppositionCarte ,createOppositionCarte};
