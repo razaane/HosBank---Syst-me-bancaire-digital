@@ -1,5 +1,6 @@
 const db = require('../config/connexion');
 const Demande = require('../models/Demande');
+
 async function findByClientId(clientId) {
   const [rows] = await db.query(
     "SELECT * FROM demandes WHERE client_id = ? ORDER BY date_creation DESC",
@@ -7,6 +8,7 @@ async function findByClientId(clientId) {
   );
   return rows.map(row => new Demande(row));
 }
+
 async function create(data) {
   const { clientId, typeDemande, donneesSpecifiques } = data;
   const [result] = await db.query(
