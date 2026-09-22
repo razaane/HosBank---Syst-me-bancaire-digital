@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Opposition sur carte</title>
+</head>
+<body>
+
+  <h1>Opposition sur carte</h1>
+
+  <p>⚠️ Cette action bloque la carte immédiatement.</p>
+
+  <form action="/demandes/opposition-carte" method="POST">
+
+    <label>
+      Choisir la carte :
+
+      <select name="carteId" required>
+        <% cartes.forEach(c => { %>
+
+          <option value="<%= c.id %>">
+            <%= c.numero_carte %> (<%= c.statut %>)
+          </option>
+
+        <% }) %>
+      </select>
+
+    </label>
+
+    <br><br>
+
+    <button type="submit">
+      Confirmer l'opposition
+    </button>
+
+  </form>
+
+  <a href="/demandes">Voir mes demandes</a>
+
+</body>
+</html>

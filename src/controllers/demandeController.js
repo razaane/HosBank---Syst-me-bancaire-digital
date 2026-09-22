@@ -24,4 +24,35 @@ function showCarteVirtuelleForm(req, res) {
   res.render('client/demande/carte-virtuelle');
 }
 
-module.exports = { listerMesDemandes, demanderCarteVirtuelle, showCarteVirtuelleForm };
+async function showOppositionForm(req, res) {
+  try {
+    const carteRepository = require('../repositories/carteRepository');
+
+    const cartes = await carteRepository.findByClientId(
+      req.session.userId
+    );
+
+    res.render('client/demande/opposition-carte', { cartes });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur lors du chargement de vos cartes.');
+  }
+}
+
+async function opposerCarte(req, res) {
+  try {
+    const { carteId } = req.body;
+
+    await demandeService.opposerCarte(
+      req.session.userId,
+      carteId
+    );
+
+    res.redirect('/demandes');
+
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+}
+module.exports = { listerMesDemandes, demanderCarteVirtuelle, showCarteVirtuelleForm ,showOppositionForm , opposerCarte};
