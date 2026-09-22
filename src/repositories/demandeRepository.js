@@ -19,33 +19,6 @@ async function create(data) {
   return result.insertId;
 }
 
-async function createOppositionCarte(data) {
-  const db = require('../config/connexion');
-  const { clientId, carteId } = data;
 
-  const connection = await db.getConnection();
-  try {
-    await connection.beginTransaction();
-
-    const [result] = await connection.query(
-      'INSERT INTO demandes (client_id, type_demande, statut, donnees_specifiques) VALUES (?, ?, ?, ?)',
-      [clientId, 'opposition_carte', 'validee', JSON.stringify({ carteId })]
-    );
-
-    await connection.query(
-      'UPDATE cartes SET statut = ? WHERE id = ?',
-      ['opposee', carteId]
-    );
-
-    await connection.commit();
-    return result.insertId;
-
-  } catch (err) {
-    await connection.rollback();
-    throw err;
-  } finally {
-    connection.release();
-  }
-}
 
 module.exports = { findByClientId, create ,createOppositionCarte };
