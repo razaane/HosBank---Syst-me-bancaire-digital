@@ -36,4 +36,18 @@ async function opposerCarte(clientId, carteId) {
   });
 }
 
-module.exports = { listerDemandes, demanderCarteVirtuelle ,opposerCarte};
+async function demanderRenouvellementPin(clientId, carteId) {
+  if (!carteId) {
+    throw new Error('La carte est obligatoire.');
+  }
+
+  const cartes = await carteRepository.findByClientId(clientId);
+  const carte = cartes.find(c => c.id === Number(carteId));
+  if (!carte) {
+    throw new Error("Cette carte n'appartient pas à ce client.");
+  }
+
+  return await demandeRepository.createRenouvellementPin({ clientId, carteId });
+}
+
+module.exports = { listerDemandes, demanderCarteVirtuelle ,opposerCarte ,demanderRenouvellementPin};
