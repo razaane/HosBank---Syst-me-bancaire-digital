@@ -1,1 +1,118 @@
-<div>dashboard</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord - HosBank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-serif-num { font-family: 'Source Serif 4', serif; }
+  </style>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+
+  <aside class="fixed left-0 top-0 h-full w-64 bg-[#f6f3f1] z-50 flex flex-col justify-between py-6 px-5 border-r border-[#dbc1b9]/30">
+    <div class="flex flex-col gap-6">
+      <div class="px-2">
+        <span class="text-xl font-semibold tracking-tight">HosBank</span>
+      </div>
+      <nav class="flex flex-col gap-1">
+        <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>
+          <span class="text-sm">Tableau de bord</span>
+        </a>
+        <a href="/virements" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+          <span class="text-sm">Virements</span>
+        </a>
+        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">group</span>
+          <span class="text-sm">Bénéficiaires</span>
+        </a>
+        <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">history_edu</span>
+          <span class="text-sm">Mes demandes</span>
+        </a>
+        <a href="/reclamations" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">contact_support</span>
+          <span class="text-sm">Réclamations</span>
+        </a>
+      </nav>
+    </div>
+    <a href="/logout" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#55433d] hover:text-[#ba1a1a] transition-colors">
+      <span class="material-symbols-outlined text-[18px]">logout</span>
+      <span class="text-sm">Déconnexion</span>
+    </a>
+  </aside>
+
+  <div class="pl-64">
+    <header class="h-16 flex items-center justify-end px-8 border-b border-[#dbc1b9]/30 bg-white/80 backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <p class="text-sm font-semibold leading-tight"><%= user.nom %> <%= user.prenom %></p>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-[#99462a] flex items-center justify-center">
+          <span class="material-symbols-outlined text-white text-[18px]">person</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-6 lg:px-10 py-8 flex flex-col gap-8">
+
+      <div class="flex flex-col gap-1">
+        <h1 class="text-3xl font-serif-num tracking-tight">Bonjour, <%= user.prenom %></h1>
+        <p class="text-[#55433d] text-sm">Vue synthétique de vos comptes HosBank</p>
+      </div>
+
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="/virements/effectuer" class="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#d97757] text-white hover:opacity-90 transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">send_money</span>
+          <span class="font-medium text-sm">Faire un virement</span>
+        </a>
+        <a href="/demandes/carte-virtuelle" class="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-white hover:bg-[#f6f3f1] transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[20px] text-[#55433d]">credit_card</span>
+          <span class="font-medium text-sm">Nouvelle carte virtuelle</span>
+        </a>
+        <a href="/reclamations/ajouter" class="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-white hover:bg-[#f6f3f1] transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[20px] text-[#55433d]">contact_support</span>
+          <span class="font-medium text-sm">Déposer une réclamation</span>
+        </a>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-medium mb-4">Mes comptes</h2>
+        <% if (comptes.length === 0) { %>
+          <p class="text-[#55433d] text-sm">Aucun compte pour le moment.</p>
+        <% } else { %>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <% comptes.forEach(c => { %>
+              <article class="bg-white rounded-2xl p-6 shadow-sm">
+                <div class="flex items-start justify-between mb-4">
+                  <div>
+                    <span class="text-xs text-[#55433d] uppercase tracking-wider block mb-1">
+                      <%= c.type_compte === 'epargne' ? 'Compte Épargne' : 'Compte Courant' %>
+                    </span>
+                    <p class="text-sm text-[#55433d] font-mono"><%= c.numero_compte %></p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full bg-[#f6f3f1] text-xs text-[#55433d]"><%= c.statut %></span>
+                </div>
+                <div>
+                  <span class="text-xs text-[#55433d] block mb-1">Solde disponible</span>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-serif-num"><%= Number(c.solde).toFixed(2) %></span>
+                    <span class="text-lg text-[#55433d]">DH</span>
+                  </div>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,6 +1,11 @@
 const db = require('../config/connexion');
 const Utilisateur = require('../models/Utilisateur');
 
+async function findById(id) {
+  const [rows] = await db.query('SELECT * FROM utilisateurs WHERE id = ? LIMIT 1', [id]);
+  return rows[0] ? new Utilisateur(rows[0]) : null;
+}
+
 async function findByEmail(email) {
   const [rows] = await db.query(
     'SELECT * FROM utilisateurs WHERE email = ? LIMIT 1',
@@ -40,4 +45,4 @@ async function verifyUserToken(token) {
   return new Utilisateur(user);
 }
 
-module.exports = { findByEmail, createUser,createClient, verifyUserToken };
+module.exports = { findById,findByEmail, createUser,createClient, verifyUserToken };
