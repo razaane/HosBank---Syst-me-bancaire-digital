@@ -8,6 +8,10 @@ async function findByEmail(email) {
   );
   return rows[0] ? new Utilisateur(rows[0]) : null;
 }
+async function findById(id) {
+  const [rows] = await db.query('SELECT * FROM utilisateurs WHERE id = ? LIMIT 1', [id]);
+  return rows[0] ? new Utilisateur(rows[0]) : null;
+}
 
 async function createUser(userData) {
   const { nom, prenom, email, motDePasse, role, tokenVerification } = userData;
@@ -40,4 +44,4 @@ async function verifyUserToken(token) {
   return new Utilisateur(user);
 }
 
-module.exports = { findByEmail, createUser,createClient, verifyUserToken };
+module.exports = { findByEmail,findById , createUser,createClient, verifyUserToken };

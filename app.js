@@ -25,12 +25,6 @@ app.use('/', require('./src/routes/beneficiaireRoutes'));
 app.use('/', require('./src/routes/virementRoutes'));
 app.use('/', require('./src/routes/demandeRoutes'));
 app.use('/', require('./src/routes/dashboardRoutes'))
-app.get('/dashboard', (req, res) => {
-  if (!req.session.userId) {
-    return res.redirect('/login');
-  }
-  res.render('auth/dashboard');
-});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
