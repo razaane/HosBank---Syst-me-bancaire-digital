@@ -18,15 +18,13 @@ app.set('views', './src/views');
 
 app.use(express.static('public'));
 
-app.use('/', require('./src/routes/authRoutes'));
-app.use('/', require('./src/routes/beneficiaireRoutes'));
-app.use('/', require('./src/routes/virementRoutes'));
-app.get('/dashboard', (req, res) => {
-  if (!req.session.userId) {
-    return res.redirect('/login');
-  }
-  res.render('auth/dashboard');
-});
+app.use('/', require('./src/routes/authRoutes'))
+
+app.use('/', require('./src/routes/beneficiaireRoutes'))
+
+app.use('/', require('./src/routes/virementRoutes'))
+
+app.use('/', require('./src/routes/dashboardRoutes'))
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
