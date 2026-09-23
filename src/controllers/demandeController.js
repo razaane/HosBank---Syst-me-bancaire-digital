@@ -28,8 +28,8 @@ async function showOppositionForm(req, res) {
   try {
     const carteRepository = require('../repositories/carteRepository');
 
-    const cartes = await carteRepository.findByClientId(
-      req.session.userId
+    const cartes = await carteRepository.findActiveByClientId(
+    req.session.userId
     );
 
     res.render('client/demande/opposition-carte', { cartes });
@@ -58,8 +58,9 @@ async function opposerCarte(req, res) {
 
 async function showPinForm(req, res) {
   try {
+    console.log('userId en session:', req.session.userId);
     const carteRepository = require('../repositories/carteRepository');
-    const cartes = await carteRepository.findByClientId(req.session.userId);
+    const cartes = await carteRepository.findActiveByClientId(req.session.userId);
     res.render('client/demande/renouvellement-pin', { cartes });
   } catch (err) {
     console.error(err);

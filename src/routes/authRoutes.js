@@ -8,4 +8,5 @@ router.post('/register', registerController);
 router.post('/login', loginController);
 router.get('/verify/:token', verifyEmailController);
 
+
 module.exports = router;
