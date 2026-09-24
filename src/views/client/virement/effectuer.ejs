@@ -1,50 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head') %>
   <title>Effectuer un virement - HosBank</title>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>body{font-family:'Inter',sans-serif}.font-serif-num{font-family:'Source Serif 4',serif}</style>
 </head>
 <body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
-
-  <aside class="fixed left-0 top-0 h-full w-64 bg-[#f6f3f1] z-50 flex flex-col justify-between py-6 px-5 border-r border-[#dbc1b9]/30">
-    <div class="flex flex-col gap-6">
-      <div class="px-2"><span class="text-xl font-semibold tracking-tight">HosBank</span></div>
-      <nav class="flex flex-col gap-1">
-        <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm">Tableau de bord</span>
-        </a>
-        <a href="/virements" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
-          <span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="text-sm">Virements</span>
-        </a>
-        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">group</span><span class="text-sm">Bénéficiaires</span>
-        </a>
-        <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">history_edu</span><span class="text-sm">Mes demandes</span>
-        </a>
-        <a href="/reclamations" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">contact_support</span><span class="text-sm">Réclamations</span>
-        </a>
-      </nav>
-    </div>
-    <a href="/logout" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#55433d] hover:text-[#ba1a1a] transition-colors">
-      <span class="material-symbols-outlined text-[18px]">logout</span><span class="text-sm">Déconnexion</span>
-    </a>
-  </aside>
-
+  <%- include('../../partials/sidebar', { active: 'virements' }) %>
   <div class="pl-64">
     <main class="max-w-[800px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
-
       <div class="flex flex-col gap-1">
         <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Opération de transfert</span>
         <h1 class="text-3xl font-serif-num tracking-tight">Effectuer un virement</h1>
       </div>
-
       <% if (beneficiaires.length === 0) { %>
         <div class="bg-white rounded-2xl p-6 shadow-sm">
           <p class="text-[#55433d] text-sm">Vous n'avez aucun bénéficiaire enregistré.</p>
@@ -53,39 +20,28 @@
       <% } else { %>
         <form action="/virements" method="POST" class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-5">
           <div class="flex flex-col gap-2">
-            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="beneficiaireId">Bénéficiaire</label>
-            <select name="beneficiaireId" id="beneficiaireId" required
-              class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-[#1c1c1a] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Bénéficiaire</label>
+            <select name="beneficiaireId" required class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
               <option value="">-- Choisir un bénéficiaire --</option>
-              <% beneficiaires.forEach(b => { %>
-                <option value="<%= b.id %>"><%= b.nom %> (<%= b.rib %>)</option>
-              <% }) %>
+              <% beneficiaires.forEach(b => { %><option value="<%= b.id %>"><%= b.nom %> (<%= b.rib %>)</option><% }) %>
             </select>
           </div>
-
           <div class="flex flex-col gap-2">
-            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="montant">Montant</label>
+            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Montant</label>
             <div class="flex items-baseline gap-2 px-4 h-14 rounded-xl bg-[#f6f3f1] focus-within:ring-1 focus-within:ring-[#99462a]">
-              <input type="number" step="0.01" name="montant" id="montant" required placeholder="0.00"
-                class="flex-1 bg-transparent text-2xl font-serif-num focus:outline-none">
+              <input type="number" step="0.01" name="montant" required placeholder="0.00" class="flex-1 bg-transparent text-2xl font-serif-num focus:outline-none">
               <span class="text-[#55433d] font-medium">DH</span>
             </div>
           </div>
-
           <div class="flex flex-col gap-2">
-            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="motif">Motif</label>
-            <input type="text" name="motif" id="motif" placeholder="Ex: Loyer, remboursement..."
-              class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Motif</label>
+            <input type="text" name="motif" placeholder="Ex: Loyer, remboursement..." class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
           </div>
-
-          <button type="submit"
-            class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
-            Envoyer le virement
-            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+          <button type="submit" class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
+            Envoyer le virement <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
           </button>
         </form>
       <% } %>
-
       <a href="/virements" class="text-sm text-[#55433d] hover:text-[#99462a] flex items-center gap-1.5">
         <span class="material-symbols-outlined text-[16px]">history</span> Voir l'historique des virements
       </a>

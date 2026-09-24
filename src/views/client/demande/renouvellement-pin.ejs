@@ -1,73 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head') %>
   <title>Renouvellement PIN - HosBank</title>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>body{font-family:'Inter',sans-serif}.font-serif-num{font-family:'Source Serif 4',serif}</style>
 </head>
 <body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
-
-  <aside class="fixed left-0 top-0 h-full w-64 bg-[#f6f3f1] z-50 flex flex-col justify-between py-6 px-5 border-r border-[#dbc1b9]/30">
-    <div class="flex flex-col gap-6">
-      <div class="px-2"><span class="text-xl font-semibold tracking-tight">HosBank</span></div>
-      <nav class="flex flex-col gap-1">
-        <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm">Tableau de bord</span>
-        </a>
-        <a href="/virements" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="text-sm">Virements</span>
-        </a>
-        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">group</span><span class="text-sm">Bénéficiaires</span>
-        </a>
-        <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
-          <span class="material-symbols-outlined text-[20px]">history_edu</span><span class="text-sm">Mes demandes</span>
-        </a>
-        <a href="/reclamations" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
-          <span class="material-symbols-outlined text-[20px]">contact_support</span><span class="text-sm">Réclamations</span>
-        </a>
-      </nav>
-    </div>
-    <a href="/logout" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#55433d] hover:text-[#ba1a1a] transition-colors">
-      <span class="material-symbols-outlined text-[18px]">logout</span><span class="text-sm">Déconnexion</span>
-    </a>
-  </aside>
-
+  <%- include('../../partials/sidebar', { active: 'demandes' }) %>
   <div class="pl-64">
     <main class="max-w-[700px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-6">
-
       <div class="flex flex-col gap-1">
         <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Sécurité</span>
         <h1 class="text-3xl font-serif-num tracking-tight">Renouvellement / recalcul du PIN</h1>
       </div>
-
       <div class="bg-white rounded-2xl p-7 shadow-sm flex flex-col gap-5">
         <% if (cartes.length === 0) { %>
           <p class="text-sm text-[#55433d]">Aucune carte active disponible.</p>
         <% } else { %>
           <form action="/demandes/renouvellement-pin" method="POST" class="flex flex-col gap-5">
             <div class="flex flex-col gap-2">
-              <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="carteId">Choisir la carte</label>
-              <select name="carteId" id="carteId" required
-                class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
-                <% cartes.forEach(c => { %>
-                  <option value="<%= c.id %>"><%= c.numero_carte %></option>
-                <% }) %>
+              <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Choisir la carte</label>
+              <select name="carteId" required class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+                <% cartes.forEach(c => { %><option value="<%= c.id %>"><%= c.numero_carte %></option><% }) %>
               </select>
             </div>
-            <button type="submit"
-              class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
-              Envoyer la demande
-              <span class="material-symbols-outlined text-[18px]">dialpad</span>
+            <button type="submit" class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
+              Envoyer la demande <span class="material-symbols-outlined text-[18px]">dialpad</span>
             </button>
           </form>
         <% } %>
       </div>
-
       <a href="/demandes" class="text-sm text-[#55433d] hover:text-[#99462a] flex items-center gap-1.5">
         <span class="material-symbols-outlined text-[16px]">arrow_back</span> Voir mes demandes
       </a>
