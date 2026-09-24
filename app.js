@@ -28,6 +28,7 @@ app.use('/', require('./src/routes/dashboardRoutes'));
 app.use('/', require('./src/routes/compteRoutes'));
 app.use('/', require('./src/routes/carteRoutes'));;
 app.use('/', require('./src/routes/profilRoutes'));
+app.use('/', require('./src/routes/reclamationRoutes'));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

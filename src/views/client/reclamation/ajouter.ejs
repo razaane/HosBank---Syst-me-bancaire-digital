@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Nouvelle réclamation - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar', { active: 'reclamations' }) %>
+  <div class="pl-64">
+    <main class="max-w-[600px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-6">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Support</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Nouvelle réclamation</h1>
+      </div>
+      <form action="/reclamations" method="POST" class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Sujet</label>
+          <input type="text" name="sujet" required class="h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Description</label>
+          <textarea name="description" rows="5" required class="p-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]"></textarea>
+        </div>
+        <button type="submit" class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all">Envoyer</button>
+      </form>
+      <a href="/reclamations" class="text-sm text-[#55433d] hover:text-[#99462a]">← Retour</a>
+    </main>
+  </div>
+</body>
+</html>
