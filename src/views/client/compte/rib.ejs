@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Mes RIB - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar', { active: 'rib' }) %>
+  <div class="pl-64">
+    <main class="max-w-[900px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Relevé d'identité bancaire</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Mes RIB</h1>
+      </div>
+      <div class="flex flex-col gap-4">
+        <% comptes.forEach(c => { %>
+          <div class="bg-white rounded-2xl p-6 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-xs text-[#55433d] uppercase tracking-wider block mb-1"><%= c.type_compte === 'epargne' ? 'Compte Épargne' : 'Compte Courant' %></span>
+              <p class="font-mono text-sm"><%= c.rib || 'Non disponible' %></p>
+            </div>
+            <span class="text-xs text-[#55433d]"><%= c.numero_compte %></span>
+          </div>
+        <% }) %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

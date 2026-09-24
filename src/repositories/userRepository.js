@@ -44,6 +44,14 @@ async function verifyUserToken(token) {
   return new Utilisateur(user);
 }
 
-
-module.exports = { findByEmail,findById , createUser,createClient, verifyUserToken };
+async function updateTelephone(id, telephone) {
+  await db.query('UPDATE utilisateurs SET telephone = ? WHERE id = ?', [telephone, id]);
+}
+async function updateEmail(id, email) {
+  await db.query('UPDATE utilisateurs SET email = ? WHERE id = ?', [email, id]);
+}
+async function updatePassword(id, motDePasseHash) {
+  await db.query('UPDATE utilisateurs SET mot_de_passe = ? WHERE id = ?', [motDePasseHash, id]);
+}
+module.exports = { findByEmail, createUser, verifyUserToken, createClient, findById, updateTelephone, updateEmail, updatePassword };
 

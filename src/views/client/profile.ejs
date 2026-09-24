@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Mon profil - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../partials/sidebar', { active: 'profil' }) %>
+  <div class="pl-64">
+    <main class="max-w-[600px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-6">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Compte</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Mon profil</h1>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+        <h2 class="text-sm font-medium text-[#55433d] uppercase tracking-wider">Téléphone</h2>
+        <form action="/profil/telephone" method="POST" class="flex gap-3">
+          <input type="text" name="telephone" value="<%= user.telephone || '' %>" placeholder="+212 6XX XXX XXX"
+            class="flex-1 h-11 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+          <button type="submit" class="h-11 px-4 rounded-xl bg-[#99462a] text-white text-sm font-medium">Enregistrer</button>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+        <h2 class="text-sm font-medium text-[#55433d] uppercase tracking-wider">Email</h2>
+        <form action="/profil/email" method="POST" class="flex gap-3">
+          <input type="email" name="email" value="<%= user.email %>" required
+            class="flex-1 h-11 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+          <button type="submit" class="h-11 px-4 rounded-xl bg-[#99462a] text-white text-sm font-medium">Enregistrer</button>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+        <h2 class="text-sm font-medium text-[#55433d] uppercase tracking-wider">Mot de passe</h2>
+        <form action="/profil/mot-de-passe" method="POST" class="flex flex-col gap-3">
+          <input type="password" name="ancienMotDePasse" placeholder="Mot de passe actuel" required
+            class="h-11 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+          <input type="password" name="nouveauMotDePasse" placeholder="Nouveau mot de passe" required
+            class="h-11 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+          <button type="submit" class="h-11 rounded-xl bg-[#99462a] text-white text-sm font-medium">Modifier le mot de passe</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
