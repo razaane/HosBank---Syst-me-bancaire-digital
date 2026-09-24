@@ -7,6 +7,8 @@ const[rows] = await db.query('SELECT * FROM comptes_bancaires WHERE client_id = 
     [clientId])
 return rows.map(row=> new Compte(row))
 }   
+
+
 async function createDemandeEpargne(clientId) {
   const numero = 'EPG-' + Date.now();
   const [result] = await db.query(
