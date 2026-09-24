@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - HosBank</title>
+</head>
+<body>
+    <h1>Create an Account</h1>
+    <% if (typeof error !== 'undefined') { %>
+        <p><%= error %></p>
+    <% } %>
+    <form action="/register" method="POST">
+        <div>
+            <label>Nom:</label>
+            <input type="text" name="nom" required>
+        </div>
+        <br>
+        <div>
+            <label>Prenom:</label>
+            <input type="text" name="prenom" required>
+        </div>
+        <br>
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <br>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="motPass" required>
+        </div>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

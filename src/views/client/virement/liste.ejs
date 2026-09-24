@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Historique des virements</title>
+</head>
+<body>
+  <h1>Historique des virements</h1>
+  <a href="/virements/effectuer">Effectuer un virement</a>
+
+  <table border="1">
+    <tr><th>Date</th><th>Montant</th><th>Motif</th><th>Statut</th></tr>
+    <% virements.forEach(v => { %>
+      <tr>
+        <td><%= v.dateVirement %></td>
+        <td><%= v.montant %></td>
+        <td><%= v.motif %></td>
+        <td><%= v.statut %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>

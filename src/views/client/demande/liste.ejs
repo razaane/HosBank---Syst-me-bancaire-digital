@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes demandes</title>
+</head>
+<body>
+  <h1>Mes demandes</h1>
+  <a href="/demandes/carte-virtuelle">Demander une carte virtuelle</a> |
+  <a href="/demandes/opposition-carte">Opposition sur carte</a> |
+  <a href="/demandes/renouvellement-pin">Renouvellement PIN</a>
+
+  <table border="1">
+    <tr><th>Type</th><th>Date</th><th>Statut</th></tr>
+    <% const libellesType = {
+         carte_virtuelle: 'Carte virtuelle',
+         opposition_carte: 'Opposition carte',
+         renouvellement_pin: 'Renouvellement PIN',
+         ouverture_epargne: "Ouverture d'épargne",
+         rib: 'Demande de RIB'
+       };
+       const libellesStatut = {
+         en_attente: 'En attente',
+         en_cours: 'En cours',
+         validee: 'Validée',
+         refusee: 'Refusée'
+       };
+    %>
+    <% demandes.forEach(d => { %>
+      <tr>
+        <td><%= libellesType[d.typeDemande] || d.typeDemande %></td>
+        <td><%= d.dateCreation %></td>
+        <td><%= libellesStatut[d.statut] || d.statut %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>

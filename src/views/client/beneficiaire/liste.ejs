@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes bénéficiaires</title>
+</head>
+<body>
+  <h1>Mes bénéficiaires</h1>
+
+  <a href="/beneficiaires/ajouter">Ajouter un bénéficiaire</a>
+
+  <ul>
+    <% beneficiaires.forEach(b => { %>
+      <li>
+        <%= b.nom %> — <%= b.rib %> (<%= b.banque %>)
+        <form action="/beneficiaires/<%= b.id %>/supprimer" method="POST" style="display:inline">
+          <button type="submit">Supprimer</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
