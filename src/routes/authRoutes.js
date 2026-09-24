@@ -7,5 +7,10 @@ router.get('/login', (req, res) => res.render('auth/login', { verified: req.quer
 router.post('/register', registerController);
 router.post('/login', loginController);
 router.get('/verify/:token', verifyEmailController);
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
+});
 
 module.exports = router;

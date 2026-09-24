@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ajouter un bénéficiaire - HosBank</title>
+  <title>Demande de carte virtuelle - HosBank</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -21,10 +21,10 @@
         <a href="/virements" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
           <span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="text-sm">Virements</span>
         </a>
-        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
+        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
           <span class="material-symbols-outlined text-[20px]">group</span><span class="text-sm">Bénéficiaires</span>
         </a>
-        <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
+        <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
           <span class="material-symbols-outlined text-[20px]">history_edu</span><span class="text-sm">Mes demandes</span>
         </a>
         <a href="/reclamations" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
@@ -38,40 +38,33 @@
   </aside>
 
   <div class="pl-64">
-    <main class="max-w-[600px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-6">
+    <main class="max-w-[700px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-6">
 
       <div class="flex flex-col gap-1">
-        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Contacts</span>
-        <h1 class="text-3xl font-serif-num tracking-tight">Ajouter un bénéficiaire</h1>
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Cartes</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Demande de carte virtuelle</h1>
       </div>
 
-      <form action="/beneficiaires" method="POST" class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-5">
-        <div class="flex flex-col gap-2">
-          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="nom">Nom</label>
-          <input type="text" name="nom" id="nom" required placeholder="Ex: Salma Bennani"
-            class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+      <div class="bg-white rounded-2xl p-7 shadow-sm flex flex-col gap-5">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full bg-[#f6f3f1] flex items-center justify-center text-[#99462a]">
+            <span class="material-symbols-outlined text-[22px]">credit_card</span>
+          </div>
+          <p class="text-sm text-[#55433d]">Votre demande sera envoyée à votre chargé de compte pour validation.</p>
         </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="rib">RIB</label>
-          <input type="text" name="rib" id="rib" required placeholder="011 780 0000123456789012 34"
-            class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm font-mono focus:outline-none focus:ring-1 focus:ring-[#99462a]">
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="banque">Banque</label>
-          <input type="text" name="banque" id="banque" placeholder="Ex: BMCE Bank"
-            class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
-        </div>
-        <button type="submit"
-          class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
-          Ajouter le bénéficiaire
-          <span class="material-symbols-outlined text-[18px]">check</span>
-        </button>
-      </form>
+        <form action="/demandes/carte-virtuelle" method="POST">
+          <button type="submit"
+            class="w-full h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
+            Confirmer la demande
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+          </button>
+        </form>
+      </div>
 
-      <a href="/beneficiaires" class="text-sm text-[#55433d] hover:text-[#99462a] flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[16px]">arrow_back</span> Retour à la liste
+      <a href="/demandes" class="text-sm text-[#55433d] hover:text-[#99462a] flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[16px]">arrow_back</span> Voir mes demandes
       </a>
     </main>
   </div>
 </body>
-</html>
+</html> 

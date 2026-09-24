@@ -13,7 +13,6 @@ async function findByEmail(email) {
   );
   return rows[0] ? new Utilisateur(rows[0]) : null;
 }
-
 async function createUser(userData) {
   const { nom, prenom, email, motDePasse, role, tokenVerification } = userData;
   const [result] = await db.query(
@@ -45,4 +44,6 @@ async function verifyUserToken(token) {
   return new Utilisateur(user);
 }
 
-module.exports = { findById,findByEmail, createUser,createClient, verifyUserToken };
+
+module.exports = { findByEmail,findById , createUser,createClient, verifyUserToken };
+

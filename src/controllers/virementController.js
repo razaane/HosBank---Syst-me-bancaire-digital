@@ -17,12 +17,12 @@ async function list(req, res) {
 
 async function showAddForm(req, res) {
   try {
-    const clientId = req.session.userId; 
-    const beneficiaires = await beneficiaireService.listerBeneficiaires(clientId);
+    const beneficiaireService = require('../services/beneficiaireService');
+    const beneficiaires = await beneficiaireService.listerBeneficiaires(req.session.userId);
     res.render('client/virement/effectuer', { beneficiaires });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Erreur lors du chargement du formulaire.');
+    res.status(500).send('Erreur lors du chargement des bénéficiaires.');
   }
 }
 

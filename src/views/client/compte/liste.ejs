@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mes bénéficiaires - HosBank</title>
+  <title>Mes comptes - HosBank</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,10 +18,13 @@
         <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
           <span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-sm">Tableau de bord</span>
         </a>
+        <a href="/comptes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span class="text-sm">Mes comptes</span>
+        </a>
         <a href="/virements" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
           <span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="text-sm">Virements</span>
         </a>
-        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white text-[#99462a] font-medium shadow-sm">
+        <a href="/beneficiaires" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
           <span class="material-symbols-outlined text-[20px]">group</span><span class="text-sm">Bénéficiaires</span>
         </a>
         <a href="/demandes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#55433d] hover:bg-white transition-all">
@@ -38,42 +41,55 @@
   </aside>
 
   <div class="pl-64">
-    <main class="max-w-[900px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+    <main class="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
 
       <div class="flex items-end justify-between gap-4">
         <div class="flex flex-col gap-1">
-          <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Contacts</span>
-          <h1 class="text-3xl font-serif-num tracking-tight">Mes bénéficiaires</h1>
+          <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Patrimoine</span>
+          <h1 class="text-3xl font-serif-num tracking-tight">Mes comptes</h1>
         </div>
-        <a href="/beneficiaires/ajouter" class="h-11 px-5 rounded-xl bg-[#99462a] text-white text-sm font-medium hover:opacity-90 transition-all flex items-center gap-2">
-          <span class="material-symbols-outlined text-[18px]">person_add</span> Ajouter
+        <a href="/comptes/epargne" class="h-11 px-5 rounded-xl bg-[#99462a] text-white text-sm font-medium hover:opacity-90 transition-all flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">savings</span> Ouvrir un compte épargne
         </a>
       </div>
 
-      <% if (beneficiaires.length === 0) { %>
+      <% if (comptes.length === 0) { %>
         <div class="bg-white rounded-2xl p-6 shadow-sm">
-          <p class="text-[#55433d] text-sm">Aucun bénéficiaire enregistré pour le moment.</p>
+          <p class="text-[#55433d] text-sm">Aucun compte pour le moment.</p>
         </div>
       <% } else { %>
-        <div class="flex flex-col gap-3">
-          <% beneficiaires.forEach(b => { %>
-            <div class="bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between gap-4">
-              <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-[#f6f3f1] flex items-center justify-center text-[#99462a] font-semibold">
-                  <%= b.nom.charAt(0).toUpperCase() %>
-                </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <% const statutStyle = {
+               actif: 'bg-[#d4e8d0] text-[#3a4b39]',
+               suspendu: 'bg-[#ffdad6] text-[#93000a]',
+               ferme: 'bg-[#e5e2e0] text-[#55433d]',
+               en_attente_ouverture: 'bg-[#f6f3f1] text-[#55433d]'
+             };
+          %>
+          <% comptes.forEach(c => { %>
+            <article class="bg-white rounded-2xl p-6 shadow-sm">
+              <div class="flex items-start justify-between mb-4">
                 <div>
-                  <p class="font-medium text-sm"><%= b.nom %></p>
-                  <p class="text-xs text-[#55433d] font-mono"><%= b.rib %><%= b.banque ? ' · ' + b.banque : '' %></p>
+                  <span class="text-xs text-[#55433d] uppercase tracking-wider block mb-1">
+                    <%= c.type_compte === 'epargne' ? 'Compte Épargne' : 'Compte Courant' %>
+                  </span>
+                  <p class="text-sm text-[#55433d] font-mono"><%= c.numero_compte %></p>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium <%= statutStyle[c.statut] || 'bg-[#f6f3f1] text-[#55433d]' %>">
+                  <%= c.statut %>
+                </span>
+              </div>
+              <div class="mb-4">
+                <span class="text-xs text-[#55433d] block mb-1">Solde</span>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-3xl font-serif-num"><%= Number(c.solde).toFixed(2) %></span>
+                  <span class="text-lg text-[#55433d]">DH</span>
                 </div>
               </div>
-              <form action="/beneficiaires/<%= b.id %>/supprimer" method="POST">
-                <button type="submit"
-                  class="h-9 px-3 rounded-lg bg-[#f6f3f1] hover:bg-[#ffdad6] text-[#55433d] hover:text-[#ba1a1a] text-xs font-medium transition-colors flex items-center gap-1.5">
-                  <span class="material-symbols-outlined text-[16px]">delete</span> Supprimer
-                </button>
-              </form>
-            </div>
+              <div class="pt-3 border-t border-[#f0edeb] text-xs text-[#55433d]">
+                Ouvert le <%= c.date_ouverture %>
+              </div>
+            </article>
           <% }) %>
         </div>
       <% } %>
