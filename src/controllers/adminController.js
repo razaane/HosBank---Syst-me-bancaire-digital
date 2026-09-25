@@ -173,36 +173,54 @@ async function listVirements(req, res) {
 async function getSupervision(req, res) {
   try {
     res.render('admin/supervision')
-  } catch (error) {
+
+  } 
+  catch (error) {
     console.error(error)
-    res.status(500).send('error')
+    res.status(500).send('eror')
   }
 }
 
 async function getAffectation(req, res) {
   try {
     res.render('admin/affectation')
-  } catch (error) {
+
+  } catch (error)
+   {
     console.error(error)
-    res.status(500).send('error')
+
+    res.status(500).send('er')
   }
 }
 
 async function getReclamations(req, res) {
   try {
+
     res.render('admin/reclamations')
-  } catch (error) {
+
+  }
+   catch (error) {
+
     console.error(error)
-    res.status(500).send('error')
+
+    res.status(500).send('err')
+
   }
 }
 
-async function getStats(req, res) {
+
+
+    async function getStats(req, res) {
+
   try {
     res.render('admin/stats')
-  } catch (error) {
+
+  }
+   catch (error) {
+
     console.error(error)
-    res.status(500).send('error')
+
+    res.status(500).send('errrrrr')
   }
 }
 

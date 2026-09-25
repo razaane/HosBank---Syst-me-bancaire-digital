@@ -13,11 +13,17 @@ async function findById(id) {
   return rows[0] ? new Utilisateur(rows[0]) : null;
 }
 
+async function countUsers() {
+  const [rows] = await db.query('SELECT COUNT(*) as count FROM utilisateurs')
+
+  return rows[0].count
+}
+
 async function createUser(userData) {
-  const { nom, prenom, email, motDePasse, role, tokenVerification } = userData;
+  const { nom, prenom, email, motDePasse, role, tokenVerification } = userData
   const [result] = await db.query(
     `INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, token_verification)
-     VALUES (?, ?, ?, ?, ?, ?)`,
+     VALUES (?, ?, ?, ?, ?, ?)`, 
     [nom, prenom, email, motDePasse, role || 'client', tokenVerification]
   );
   return result.insertId;
@@ -108,4 +114,4 @@ async function findAllClients() {
 }
 
 module.exports = { 
-  findByEmail,findById , createUser,createClient,verifyUserToken,findAll,updateUser,toggleActif,createChargeClient,assignerClientACharge,findAllChargeClients,updateRole,findAllClients}
+  findByEmail,findById , createUser,createClient,verifyUserToken,findAll,updateUser,toggleActif,createChargeClient,assignerClientACharge,findAllChargeClients,updateRole,findAllClients, countUsers}
