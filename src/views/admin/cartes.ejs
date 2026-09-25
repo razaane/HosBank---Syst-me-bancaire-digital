@@ -5,7 +5,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<%- include('partials/nav', { page: 'cartes' }) %>
+<%- include('../partials/adminNav', { page: 'cartes' }) %>
   <h1 style="margin-bottom:24px;">Cartes</h1>
   <div class="card">
     <table>
@@ -18,7 +18,7 @@
           <td><%= c.type_carte %></td>
           <td><span class="badge" style="background:#F0EEE6;"><%= c.statut %></span></td>
           <td>
-            <form action="/admin/cartes/<%= c.id %>" method="POST" style="display:flex;gap:6px;">
+            <form action="/admin/cartes/<%= c.id %>/statut" method="POST" style="display:flex;gap:6px;">
               <select name="statut">
                 <% ['active','opposee','expiree','en_attente'].forEach(s => { %>
                   <option value="<%= s %>" <%= c.statut===s?'selected':'' %>><%= s %></option>
@@ -32,5 +32,6 @@
       </tbody>
     </table>
   </div>
-<%- include('partials/foot') %>
+
+</main></div>
 </body></html>

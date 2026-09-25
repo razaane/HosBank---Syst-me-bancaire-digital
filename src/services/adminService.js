@@ -47,6 +47,8 @@ async function toggleUserActif(id) {
 }
 
 
+const compteRepository = require('../repositories/compteRepository')
+
 async function getAllCartes() {
   return await carteRepository.findAllCartes();
 }
@@ -63,6 +65,33 @@ async function getAllVirements() {
   return virementRepository.findAll()
 }
 
+async function changeUserRole(id, role) {
+  return userRepository.updateRole(id, role)
+}
 
+async function affecterClient(clientId, chargeClientId) {
+  return userRepository.assignerClientACharge(clientId, chargeClientId)
+}
 
-module.exports={getUseres,updateUser,createUserAsAdmin,toggleUserActif,getAllCartes,getAllDemandes,updateCarteStatut,getAllVirements}
+async function getAllComptes() {
+  return compteRepository.findAll()
+}
+
+async function updateCompteStatut(compteId, statut) {
+  return compteRepository.updateStatut(compteId, statut)
+}
+
+module.exports={
+  getUseres,
+  updateUser,
+  createUserAsAdmin,
+  toggleUserActif,
+  getAllCartes,
+  getAllDemandes,
+  updateCarteStatut,
+  getAllVirements,
+  changeUserRole,
+  affecterClient,
+  getAllComptes,
+  updateCompteStatut
+}

@@ -147,6 +147,45 @@ async function listVirements(req, res) {
   }
 }
 
+async function getSupervision(req, res) {
+  try {
+    res.render('admin/supervision')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Erreur.')
+  }
+}
 
+async function getAffectation(req, res) {
+  try {
+    res.render('admin/affectation')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Erreur.')
+  }
+}
 
-module.exports={listUsers,createUser,updateUser,toggleUser,updateRole,updateCarte,updateCompte,listComptes,listCartes,affecterClient,listDemandes,listVirements}
+async function getReclamations(req, res) {
+  try {
+    res.render('admin/reclamations')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Erreur.')
+  }
+}
+
+async function getStats(req, res) {
+  try {
+    res.render('admin/stats')
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Erreur.')
+  }
+}
+
+module.exports={
+  listUsers,createUser,updateUser,toggleUser,updateRole,
+  updateCarte,updateCompte,listComptes,listCartes,affecterClient,
+  listDemandes,listVirements,getSupervision,
+  getAffectation, getReclamations, getStats
+}
