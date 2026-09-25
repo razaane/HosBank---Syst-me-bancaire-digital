@@ -1,10 +1,13 @@
-const { v4: uuidv4 } = require('uuid')
+const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 
-const { createUser, verifyUserToken, findByEmail, createClient } = require('../repositories/userRepository')
+const { createUser, verifyUserToken, findByEmail, createClient, countUsers } = require('../repositories/userRepository')
 
 async function register(formData) {
-  const tokenVerification = uuidv4()
+  const tokenVerification = crypto.randomUUID()
+  
+  const count = await countUsers()
+  const role = count == 0 ? 'admin' : 'client'
 
   const motDePasse = await bcrypt.hash(formData.motPass, 10)
 
@@ -14,13 +17,15 @@ async function register(formData) {
     prenom: formData.prenom,
     email: formData.email,
     motDePasse,
-    role: 'client',
+    role: role,
     tokenVerification
   };
 
   const userId = await createUser(userData)
 
-  await createClient(userId)
+  if (role === 'client') {
+    await createClient(userId)
+  }
 
   return userId
 }

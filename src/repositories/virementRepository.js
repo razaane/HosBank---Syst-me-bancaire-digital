@@ -16,7 +16,19 @@ async function create(data) {
     return resultat.insertId;
 }
 
+
+async function findAll() {
+  const [rows] = await db.query(`
+    SELECT v.*, cb.numero_compte, u.nom, u.prenom
+    FROM virements v
+    JOIN comptes_bancaires cb ON v.compte_source_id = cb.id
+    JOIN clients c ON cb.client_id = c.id
+    JOIN utilisateurs u ON c.id = u.id
+    ORDER BY v.date_virement DESC
+  `)
+  return rows
+}
 module.exports ={
     findCompteById,
-    create
+    create,findAll
 }
