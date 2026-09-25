@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Réclamations - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'reclamations' }) %>
+  <h1 style="margin-bottom:24px;">Réclamations Clients</h1>
+  
+  <div class="card" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+        <div class="stat-card" style="flex: 1;">
+            <h3 class="stat-label">Nouvelles</h3>
+            <p class="stat-value" style="color: #4B7A3D;">12</p>
+        </div>
+        <div class="stat-card" style="flex: 1;">
+            <h3 class="stat-label">En cours</h3>
+            <p class="stat-value" style="color: #bfa15f;">5</p>
+        </div>
+        <div class="stat-card" style="flex: 1;">
+            <h3 class="stat-label">Traitées (30j)</h3>
+            <p class="stat-value">84</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size: 16px; margin-bottom: 16px;">Liste des réclamations</h2>
+    <table>
+      <thead>
+        <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Sujet</th>
+            <th>Priorité</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <-cd Exemple statique pour démonstration de la page -->
+        <tr>
+          <td>25/09/2026</td>
+          <td>Jean Dupont</td>
+          <td>Problème d'accès au compte</td>
+          <td><span class="badge" style="background:#F5E3DD;color:#B3532E;">Haute</span></td>
+          <td><span class="badge" style="background:#F0EEE6;color:#555;">Nouveau</span></td>
+          <td><button class="btn-outline">Consulter</button></td>
+        </tr>
+        <tr>
+          <td>24/09/2026</td>
+          <td>Marie Curie</td>
+          <td>Frais inexpliqués</td>
+          <td><span class="badge" style="background:#FFF9D2;color:#856404;">Moyenne</span></td>
+          <td><span class="badge" style="background:#E7F0E5;color:#4B7A3D;">En cours</span></td>
+          <td><button class="btn-outline">Consulter</button></td>
+        </tr>
+        <tr>
+          <td>22/09/2026</td>
+          <td>Alain Turing</td>
+          <td>Erreur virement</td>
+          <td><span class="badge" style="background:#F5E3DD;color:#B3532E;">Haute</span></td>
+          <td><span class="badge" style="background:#EEEEEE;color:#333;">Clôturé</span></td>
+          <td><button class="btn-outline">Consulter</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main></div>
+</body></html>

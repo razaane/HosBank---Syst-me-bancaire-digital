@@ -166,7 +166,7 @@ async function listVirements(req, res) {
   }   catch (error) {
     
     console.error(error)
-    
+
     res.status(500).send('error')
   }
 }
@@ -184,13 +184,14 @@ async function getSupervision(req, res) {
 
 async function getAffectation(req, res) {
   try {
+   
     res.render('admin/affectation')
 
   } catch (error)
    {
     console.error(error)
 
-    res.status(500).send('er')
+    res.status(500).send('error in affevtation')
   }
 }
 
