@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Comptes - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'comptes' }) %>
+  <h1 style="margin-bottom:24px;">Comptes Bancaires</h1>
+  <div class="card">
+    <table>
+      <thead><tr><th>Client</th><th>N° Compte</th><th>Type</th><th>Solde</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody>
+      <% if (typeof comptes !== 'undefined' && comptes.length > 0) { %>
+        <% comptes.forEach(c => { %>
+          <tr>
+            <td><%= c.prenom %> <%= c.nom %></td>
+            <td><%= c.numero_compte %></td>
+            <td><%= c.type_compte %></td>
+            <td><%= c.solde %> DH</td>
+            <td><span class="badge" style="background:#F0EEE6;"><%= c.statut %></span></td>
+            <td>
+              <form action="/admin/comptes/<%= c.id %>/statut" method="POST" style="display:flex;gap:6px;">
+                <select name="statut">
+                  <% ['actif','bloque','ferme'].forEach(s => { %>
+                    <option value="<%= s %>" <%= c.statut===s?'selected':'' %>><%= s %></option>
+                  <% }) %>
+                </select>
+                <button type="submit">OK</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="6">Aucun compte trouvé</td></tr>
+      <% } %>
+      </tbody>
+    </table>
+  </div>
+</main></div>
+</body></html>

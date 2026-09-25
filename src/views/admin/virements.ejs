@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Virements - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'virements' }) %>
+  <h1 style="margin-bottom:24px;">Virements Globaux</h1>
+  <div class="card">
+    <table>
+      <thead><tr><th>Client (Émetteur)</th><th>Compte</th><th>Montant</th><th>Motif</th><th>Date</th></tr></thead>
+      <tbody>
+      <% if (typeof virements !== 'undefined' && virements.length > 0) { %>
+        <% virements.forEach(v => { %>
+          <tr>
+            <td><%= v.prenom %> <%= v.nom %></td>
+            <td><%= v.numero_compte %></td>
+            <td><%= v.montant %> DH</td>
+            <td><%= v.motif %></td>
+            <td><%= new Date(v.date_virement).toLocaleDateString() %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="5">Aucun virement trouvé</td></tr>
+      <% } %>
+      </tbody>
+    </table>
+  </div>
+</main></div>
+</body></html>
