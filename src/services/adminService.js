@@ -7,27 +7,26 @@ const demandeRepository = require('../repositories/demandeRepository')
 const virementRepository = require('../repositories/virementRepository')
 
 
+    async function getUseres(){
 
+         return userRepository.findAll()
 
-async function getUseres(){
+            }
 
-  return userRepository.findAll()
-
-}
-
- async function updateUser(id,data){
+  async function updateUser(id,data){
 
     
   return await  userRepository.updateUser(id, data)
-}
+    }
 
 
 
-async function createUserAsAdmin({ nom, prenom, email, motDePasse, telephone, role })
-    {
-    const bcrypt = require('bcrypt')
+  async function createUserAsAdmin({ nom, prenom, email, motDePasse, telephone, role })
+      {
+    
+          const bcrypt = require('bcrypt')
 
-      const hashedPassword = await bcrypt.hash(motDePasse, 10)
+        const hashedPassword = await bcrypt.hash(motDePasse, 10)
 
     const userId = await userRepository.createUser({nom,prenom,email,telephone,
 
@@ -49,36 +48,65 @@ async function toggleUserActif(id) {
 
 const compteRepository = require('../repositories/compteRepository')
 
-async function getAllCartes() {
-  return await carteRepository.findAllCartes();
-}
+  async function getAllCartes() {
 
-async function getAllDemandes() {
-  return await demandeRepository.findAllDemandes();
-}
+    return await carteRepository.findAllCartes()
+    
+  }
 
-async function updateCarteStatut(carteId, statut) {
-  return carteRepository.updateStatut(carteId, statut)
-}
+  async function getAllDemandes() 
+     {
+  
+    return await demandeRepository.findAllDemandes()
 
-async function getAllVirements() {
-  return virementRepository.findAll()
-}
+
+      }
+
+
+
+  async function updateCarteStatut(carteId, statut)
+   {
+   
+    return carteRepository.updateStatut(carteId, statut)
+  
+    }
+
+      async function getAllVirements() {
+
+        return virementRepository.findAll()
+
+
+       }
 
 async function changeUserRole(id, role) {
+
   return userRepository.updateRole(id, role)
+
+
 }
 
-async function affecterClient(clientId, chargeClientId) {
+async function affecterClient(clientId, chargeClientId)
+ {
+
   return userRepository.assignerClientACharge(clientId, chargeClientId)
+
+
 }
 
 async function getAllComptes() {
-  return compteRepository.findAll()
+
+  
+    return compteRepository.findAll()
+
+
 }
 
 async function updateCompteStatut(compteId, statut) {
+  
+  
   return compteRepository.updateStatut(compteId, statut)
+
+
 }
 
 module.exports={

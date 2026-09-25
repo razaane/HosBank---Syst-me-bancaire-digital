@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Affectation - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'affectation' }) %>
+  <h1 style="margin-bottom:24px;">Affectation des Clients</h1>
+  
+  <div class="card" style="margin-bottom: 24px;">
+    <h2 style="font-size: 16px; margin-bottom: 16px;">Nouvelle Affectation</h2>
+    <form action="/admin/affectation" method="POST" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 250px;">
+            <label style="display:block; font-size:13px; color:var(--text-muted); margin-bottom:6px;">Client (Non assigné)</label>
+            <select name="clientId" style="width: 100%; border-radius: 0; padding: 8px;">
+                <option value="">-- Sélectionner un client --</option>
+                <option value="1">Jean Dupont (ID: C001)</option>
+                <option value="2">Karim Benz (ID: C002)</option>
+            </select>
+        </div>
+        <div style="flex: 1; min-width: 250px;">
+            <label style="display:block; font-size:13px; color:var(--text-muted); margin-bottom:6px;">Chargé de Clientèle</label>
+            <select name="chargeClientId" style="width: 100%; border-radius: 0; padding: 8px;">
+                <option value="">-- Sélectionner un chargé --</option>
+                <option value="10">Marie Curie (ID: CH01)</option>
+                <option value="11">Ahmed Alami (ID: CH02)</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit" style="padding: 9px 24px; height: 35px;">Affecter</button>
+        </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size: 16px; margin-bottom: 16px;">Historique des Affectations Récentes</h2>
+    <table>
+      <thead>
+        <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Chargé de Clientèle</th>
+            <th>Effectué par</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>25/09/2026</td>
+            <td>Salma Alaoui</td>
+            <td>Marie Curie</td>
+            <td>Admin Principal</td>
+            <td><button class="btn-outline">Révoquer</button></td>
+        </tr>
+        <tr>
+            <td>22/09/2026</td>
+            <td>Rachid Taha</td>
+            <td>Ahmed Alami</td>
+            <td>Admin Principal</td>
+            <td><button class="btn-outline">Révoquer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main></div>
+</body></html>
