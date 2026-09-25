@@ -112,6 +112,49 @@ async function seed() {
     );
     console.log('✅ Demandes créées');
 
+        // 8. Réclamations
+    await db.query(
+      `INSERT INTO reclamations (client_id, sujet, description, statut) VALUES (?, 'Virement non reçu', 'Le bénéficiaire n''a pas reçu le virement du 20 mai malgré la confirmation.', 'ouverte')`,
+      [clientId1]
+    );
+    await db.query(
+      `INSERT INTO reclamations (client_id, charge_client_id, sujet, description, statut, date_traitement) VALUES (?, ?, 'Frais anormaux', 'Des frais de tenue de compte ont été prélevés alors que mon compte est exonéré.', 'resolue', NOW())`,
+      [clientId1, chargeId]
+    );
+    await db.query(
+      `INSERT INTO reclamations (client_id, sujet, description, statut) VALUES (?, 'Carte bloquée sans raison', 'Ma carte a été bloquée alors que je ne l''ai jamais signalée perdue ou volée.', 'en_cours')`,
+      [clientId2]
+    );
+    console.log('✅ Réclamations créées');
+
+    // 9. Historique des interactions
+    await db.query(
+      `INSERT INTO historiques_interaction (client_id, charge_client_id, type_action, description) VALUES (?, ?, 'appel', 'Appel client concernant l''ouverture du compte épargne.')`,
+      [clientId1, chargeId]
+    );
+    await db.query(
+      `INSERT INTO historiques_interaction (client_id, charge_client_id, type_action, description) VALUES (?, ?, 'email', 'Envoi du RIB par email suite à la demande du client.')`,
+      [clientId1, chargeId]
+    );
+    await db.query(
+      `INSERT INTO historiques_interaction (client_id, charge_client_id, type_action, description) VALUES (?, ?, 'rendez_vous', 'Rendez-vous en agence pour discussion des placements.')`,
+      [clientId2, chargeId]
+    );
+    console.log('✅ Historique des interactions créé');
+
+    // 10. Commentaires sur demandes (nécessite que la table commentaire_demandes soit activée dans schema.sql)
+    const [demandesClient1] = await db.query(
+      `SELECT id FROM demandes WHERE client_id = ? ORDER BY id ASC`,
+      [clientId1]
+    );
+    if (demandesClient1.length > 0) {
+      await db.query(
+        `INSERT INTO commentaire_demandes (demande_id, auteur_id, contenu) VALUES (?, ?, 'Demande reçue, en cours de vérification des documents.')`,
+        [demandesClient1[0].id, chargeId]
+      );
+    }
+    console.log('✅ Commentaires créés');
+    
     console.log('🎉 Seed terminé avec succès !');
     console.log(`Login de test: yassine@test.com / password123`);
     process.exit(0);
