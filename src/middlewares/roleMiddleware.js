@@ -11,8 +11,9 @@ function requireRole(...rolesAutorises) {
 
 
 
-          return
-           res.status(403).send('access deined')}}
+          return res.status(403).send('access denied')
+    }
+}
 
 
 module.exports = { requireRole };
