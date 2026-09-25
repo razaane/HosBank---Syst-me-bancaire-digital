@@ -83,11 +83,14 @@ async function listDemandes(req, res) {
 
 async function updateRole(req, res) {
   try {
+
     await adminService.changeUserRole(req.params.id, req.body.role)
+
     res.redirect('/admin/utilisateurs')
+
   } catch (error) {
     console.error(error)
-    res.status(400).send('Erreur lors du changement de rôle.')
+    res.status(400).send('Err in rendring roles')
   }
 }
 
@@ -104,6 +107,7 @@ async function affecterClient(req, res) {
 }
 
 
+
 async function listComptes(req, res) {
   try {
     const comptes = await adminService.getAllComptes()
@@ -114,36 +118,55 @@ async function listComptes(req, res) {
   }
 }
 
+
 async function updateCompte(req, res) {
   try {
     await adminService.updateCompteStatut(req.params.id, req.body.statut)
+
     res.redirect('/admin/comptes')
-  } catch (error) {
-    console.error(error)
-    res.status(400).send('Erreur.')
-}
-}
+
+    } catch (error) {
+      
+      console.error(error)
+      
+      res.status(400).send('Error')
+  
+    }
+  
+  }
 
 
-async function updateCarte(req, res) {
-  try {
+  
+  async function updateCarte(req, res) {
+    
+    try {
+
+
     await adminService.updateCarteStatut(req.params.id, req.body.statut)
     res.redirect('/admin/cartes')
+
   } catch (error) {
+
     console.error(error)
-    res.status(400).send('Erreur.')
+
+    res.status(400).send('erer')
   }
 }
 
 
 
+
 async function listVirements(req, res) {
+  
   try {
+    
     const virements = await adminService.getAllVirements()
+      
     res.render('admin/virements', { virements })
-  } catch (error) {
+  }   catch (error) {
+    
     console.error(error)
-    res.status(500).send('Erreur.')
+    res.status(500).send('error')
   }
 }
 
@@ -152,7 +175,7 @@ async function getSupervision(req, res) {
     res.render('admin/supervision')
   } catch (error) {
     console.error(error)
-    res.status(500).send('Erreur.')
+    res.status(500).send('error')
   }
 }
 
@@ -161,7 +184,7 @@ async function getAffectation(req, res) {
     res.render('admin/affectation')
   } catch (error) {
     console.error(error)
-    res.status(500).send('Erreur.')
+    res.status(500).send('error')
   }
 }
 
@@ -170,7 +193,7 @@ async function getReclamations(req, res) {
     res.render('admin/reclamations')
   } catch (error) {
     console.error(error)
-    res.status(500).send('Erreur.')
+    res.status(500).send('error')
   }
 }
 
@@ -179,7 +202,7 @@ async function getStats(req, res) {
     res.render('admin/stats')
   } catch (error) {
     console.error(error)
-    res.status(500).send('Erreur.')
+    res.status(500).send('error')
   }
 }
 
