@@ -32,16 +32,27 @@ async function verifyUserToken(token) {
     'SELECT * FROM utilisateurs WHERE token_verification = ?',
     [token]
   );
-  if (rows.length === 0) return null;
+  if (rows.length === 0) return null
 
-  const user = rows[0];
+  const user = rows[0]
   await db.query(
     `UPDATE utilisateurs
      SET email_verifie = TRUE, actif = TRUE, token_verification = NULL
      WHERE id = ?`,
     [user.id]
   );
-  return new Utilisateur(user);
+  return new Utilisateur(user)
+} 
+
+
+async function findAll() 
+    {
+
+  const [rows] = await db.query(
+    'SELECT * FROM utilisateurs ORDER BY nom')
+
+  
+  return rows.map(row => new Utilisateur(row));
 }
 
 async function updateTelephone(id, telephone) {
@@ -53,5 +64,59 @@ async function updateEmail(id, email) {
 async function updatePassword(id, motDePasseHash) {
   await db.query('UPDATE utilisateurs SET mot_de_passe = ? WHERE id = ?', [motDePasseHash, id]);
 }
-module.exports = { findByEmail, createUser, verifyUserToken, createClient, findById, updateTelephone, updateEmail, updatePassword };
+
+
+async function updateUser(id, { nom, prenom, email, telephone }) {
+  await db.query(
+    'UPDATE utilisateurs SET nom = ?, prenom = ?, email = ?, telephone = ? WHERE id = ?',[nom, prenom, email, telephone, id])
+  }
+
+
+async function toggleActif(id) {
+
+  await db.query('UPDATE utilisateurs SET actif = NOT actif WHERE id = ?', [id])
+}
+
+
+async function createChargeClient(userId, matricule) {
+
+
+  await db.query('INSERT INTO charge_clients (id, matricule) VALUES (?, ?)', [userId, matricule])
+
+}
+
+async function assignerClientACharge(clientId, chargeClientId) {
+ 
+await db.query('UPDATE clients SET charge_client_id = ? WHERE id = ?', [chargeClientId, clientId])
+
+}
+
+async function findAllChargeClients() {
+  const [rows] = await db.query(`
+    SELECT u.id, u.nom, u.prenom, c.matricule 
+    FROM utilisateurs u 
+    JOIN charge_clients c ON u.id = c.id 
+    WHERE u.actif = TRUE
+  `);
+  return rows
+}
+
+async function updateRole(userId, newRole) {
+  await db.query('UPDATE utilisateurs SET role = ? WHERE id = ?', [newRole, userId]);
+
+}
+
+
+async function findAllClients() {
+  const [rows] = await db.query(`
+    SELECT u.id, u.nom, u.prenom, u.email, u.actif, c.charge_client_id
+    FROM utilisateurs u
+    JOIN clients c ON c.id = u.id
+    ORDER BY u.nom
+  `)
+  return rows
+}
+
+module.exports = { 
+  findByEmail,findById , createUser,createClient,verifyUserToken,findAll,updateUser,toggleActif,createChargeClient,assignerClientACharge,findAllChargeClients,updateRole,findAllClients,updateTelephone, updateEmail, updatePassword };
 

@@ -57,4 +57,18 @@ async function createRenouvellementPin(data) {
   
   return result.insertId;
 }
-module.exports = { findByClientId, create ,createOppositionCarte , createRenouvellementPin};
+
+
+
+async function findAllDemandes() {
+  const [rows] = await db.query(`
+    SELECT d.*, u.nom, u.prenom 
+    FROM demandes d
+    JOIN clients c ON d.client_id = c.id
+    JOIN utilisateurs u ON c.id = u.id
+    ORDER BY d.date_creation DESC
+  `)
+  return rows
+}
+
+module.exports = { findByClientId, create ,createOppositionCarte , createRenouvellementPin,findAllDemandes};

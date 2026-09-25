@@ -13,12 +13,14 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.set('view engine', 'ejs');
-app.set('views', './src/views');
+app.set('view engine', 'ejs')
 
-app.use(express.static('public'));
+app.set('views', './src/views')
+
+app.use(express.static('public')
+)
 app.get('/', (req, res) => {
-    res.redirect('/login');
+  res.redirect('/login')
 });
 app.use('/', require('./src/routes/authRoutes'));
 app.use('/', require('./src/routes/beneficiaireRoutes'));
@@ -29,6 +31,9 @@ app.use('/', require('./src/routes/compteRoutes'));
 app.use('/', require('./src/routes/carteRoutes'));;
 app.use('/', require('./src/routes/profilRoutes'));
 app.use('/', require('./src/routes/reclamationRoutes'));
+
+
+app.use('/',require('./src/routes/adminRoutes'))
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

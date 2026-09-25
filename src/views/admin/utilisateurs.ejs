@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Utilisateurs - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('partials/adminNav', { page: 'utilisateurs' }) %>
+  <h1 style="margin-bottom:24px;">Utilisateurs</h1>
+  <div class="card">
+    <table>
+      <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Statut</th><th></th><th></th></tr></thead>
+      <tbody>
+      <% Users.forEach(u => { %>
+        <tr>
+          <td><%= u.prenom %> <%= u.nom %></td>
+          <td><%= u.email %></td>
+          <td>
+            <form action="/admin/utilisateurs/<%= u.id %>/role" method="POST" style="display:flex;gap:6px;">
+              <select name="role">
+                <option value="client" <%= u.role==='client'?'selected':'' %>>client</option>
+                <option value="charge_client" <%= u.role==='charge_client'?'selected':'' %>>charge_client</option>
+                <option value="admin" <%= u.role==='admin'?'selected':'' %>>admin</option>
+              </select>
+              <button type="submit">OK</button>
+            </form>
+          </td>
+          <td><span class="badge" style="background:<%= u.actif ? '#E7F0E5' : '#F5E3DD' %>;color: <%= u.actif ? '#4B7A3D' : '#B3532E' %>;"><%= u.actif ? 'Actif' : 'Inactif' %></span></td>
+          <td>
+            <form action="/admin/utilisateurs/<%= u.id %>/toggle-actif" method="POST">
+              <button type="submit" class="btn-outline"><%= u.actif ? 'Désactiver' : 'Activer' %></button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+<%- include('partials/foot') %>
+</body></html>
