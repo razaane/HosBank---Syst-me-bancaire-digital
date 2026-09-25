@@ -7,6 +7,7 @@ function requireRole(...rolesAutorises) {
 
     if (rolesAutorises.includes(req.session.role)) {
 
+    
       return next() }
 
 
