@@ -97,7 +97,6 @@ CREATE TABLE demandes (
     FOREIGN KEY (charge_client_id) REFERENCES charge_clients(id) ON DELETE SET NULL
 );
 
---still don't know to add this table or not
 CREATE TABLE commentaire_demandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     demande_id INT NOT NULL,
