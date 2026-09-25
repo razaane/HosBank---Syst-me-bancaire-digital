@@ -1,34 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - HosBank</title>
+  <%- include('../partials/head') %>
+  <title>Connexion - HosBank</title>
 </head>
-<body>
-    <h1>Login</h1>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-md flex flex-col gap-8">
 
-    <% if (typeof verified !== 'undefined' && verified) { %>
-        <p>Email verified. You can now log in.</p>
-    <% } %>
+    <div class="flex flex-col items-center gap-2">
+      <span class="text-2xl font-semibold tracking-tight">HosBank</span>
+      <span class="text-xs text-[#55433d] uppercase tracking-widest">Espace Particulier</span>
+    </div>
 
-    <% if (typeof error !== 'undefined' && error) { %>
-        <p><%= error %></p>
-    <% } %>
+    <div class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-6">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-2xl font-serif-num tracking-tight">Connexion</h1>
+        <p class="text-sm text-[#55433d]">Accédez à votre espace HosBank</p>
+      </div>
 
-    <form action="/login" method="POST">
-        <div>
-            <label>Email:</label>
-            <input type="email" name="email" required>
+      <% if (typeof verified !== 'undefined' && verified) { %>
+        <div class="p-3.5 rounded-xl bg-[#d4e8d0]/60 flex items-start gap-3">
+          <span class="material-symbols-outlined text-[#3a4b39] text-[20px]">check_circle</span>
+          <p class="text-sm text-[#3a4b39]">Email vérifié. Vous pouvez maintenant vous connecter.</p>
         </div>
-        <br>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="motPass" required>
-        </div>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+      <% } %>
 
-    <p>No account? <a href="/register">Register</a></p>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="p-3.5 rounded-xl bg-[#ffdad6]/60 flex items-start gap-3">
+          <span class="material-symbols-outlined text-[#ba1a1a] text-[20px]">error</span>
+          <p class="text-sm text-[#93000a]"><%= error %></p>
+        </div>
+      <% } %>
+
+      <form action="/login" method="POST" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="email">Email</label>
+          <input type="email" name="email" id="email" required placeholder="vous@exemple.com"
+            class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium" for="motPass">Mot de passe</label>
+          <input type="password" name="motPass" id="motPass" required placeholder="••••••••"
+            class="w-full h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+        </div>
+        <button type="submit"
+          class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2 mt-2">
+          Se connecter
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </button>
+      </form>
+    </div>
+
+    <p class="text-center text-sm text-[#55433d]">
+      Pas encore de compte ?
+      <a href="/register" class="text-[#99462a] font-medium hover:underline">Créer un compte</a>
+    </p>
+  </div>
 </body>
 </html>

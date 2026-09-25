@@ -98,15 +98,15 @@ CREATE TABLE demandes (
 );
 
 --still don't know to add this table or not
--- CREATE TABLE commentaire_demandes (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     demande_id INT NOT NULL,
---     auteur_id INT NOT NULL,
---     contenu TEXT NOT NULL,
---     date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (demande_id) REFERENCES demandes(id) ON DELETE CASCADE,
---     FOREIGN KEY (auteur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
--- );
+CREATE TABLE commentaire_demandes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    demande_id INT NOT NULL,
+    auteur_id INT NOT NULL,
+    contenu TEXT NOT NULL,
+    date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (demande_id) REFERENCES demandes(id) ON DELETE CASCADE,
+    FOREIGN KEY (auteur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);
 
 
 CREATE TABLE reclamations (
