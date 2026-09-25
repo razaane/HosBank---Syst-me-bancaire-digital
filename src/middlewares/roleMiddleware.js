@@ -11,7 +11,6 @@ function requireRole(...rolesAutorises) {
       return next() }
 
 
-
           return res.status(403).send('access denied')
     }
 }
