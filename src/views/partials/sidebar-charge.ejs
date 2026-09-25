@@ -1,0 +1,23 @@
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#f6f3f1] z-50 flex flex-col justify-between py-6 px-5 border-r border-[#dbc1b9]/30">
+  <div class="flex flex-col gap-6">
+    <div class="px-2"><span class="text-xl font-semibold tracking-tight">HosBank</span><span class="block text-[10px] text-[#99462a] uppercase tracking-widest font-medium">Espace Chargé</span></div>
+    <nav class="flex flex-col gap-1">
+      <% const links = [
+           { href: '/charge/clients', icon: 'group', label: 'Mes clients', key: 'clients' },
+           { href: '/charge/demandes', icon: 'history_edu', label: 'Demandes', key: 'demandes' },
+           { href: '/charge/reclamations', icon: 'contact_support', label: 'Réclamations', key: 'reclamations' }
+         ];
+      %>
+      <% links.forEach(l => { %>
+        <a href="<%= l.href %>"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all <%= active === l.key ? 'bg-white text-[#99462a] font-medium shadow-sm' : 'text-[#55433d] hover:bg-white' %>">
+          <span class="material-symbols-outlined text-[20px]"><%= l.icon %></span>
+          <span class="text-sm"><%= l.label %></span>
+        </a>
+      <% }) %>
+    </nav>
+  </div>
+  <a href="/logout" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#55433d] hover:text-[#ba1a1a] transition-colors">
+    <span class="material-symbols-outlined text-[18px]">logout</span><span class="text-sm">Déconnexion</span>
+  </a>
+</aside>
