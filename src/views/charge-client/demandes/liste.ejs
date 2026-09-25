@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Demandes - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar-charge', { active: 'demandes' }) %>
+  <div class="pl-64">
+    <main class="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Traitement</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Demandes clients</h1>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <% const statutStyle = { en_attente: 'bg-[#f6f3f1] text-[#55433d]', en_cours: 'bg-[#fff3cd] text-[#856404]', validee: 'bg-[#d4e8d0] text-[#3a4b39]', refusee: 'bg-[#ffdad6] text-[#93000a]' }; %>
+        <% if (demandes.length === 0) { %>
+          <p class="p-6 text-[#55433d] text-sm">Aucune demande.</p>
+        <% } else { %>
+          <table class="w-full text-left">
+            <thead><tr class="bg-[#f6f3f1] text-xs uppercase tracking-wider text-[#55433d]"><th class="py-3 px-5">Client</th><th class="py-3 px-5">Type</th><th class="py-3 px-5">Date</th><th class="py-3 px-5">Statut</th></tr></thead>
+            <tbody class="divide-y divide-[#f0edeb]">
+              <% demandes.forEach(d => { %>
+                <tr class="hover:bg-[#f6f3f1]/60 transition-colors cursor-pointer" onclick="location.href='/charge/demandes/<%= d.id %>'">
+                  <td class="py-4 px-5 text-sm font-medium"><%= d.nom %> <%= d.prenom %></td>
+                  <td class="py-4 px-5 text-sm"><%= d.type_demande %></td>
+                  <td class="py-4 px-5 text-sm text-[#55433d]"><%= d.date_creation %></td>
+                  <td class="py-4 px-5"><span class="px-2.5 py-1 rounded-full text-xs font-medium <%= statutStyle[d.statut] || 'bg-[#f6f3f1] text-[#55433d]' %>"><%= d.statut %></span></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

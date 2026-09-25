@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title><%= client.nom %> <%= client.prenom %> - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar-charge', { active: 'clients' }) %>
+  <div class="pl-64">
+    <main class="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Fiche client</span>
+        <h1 class="text-3xl font-serif-num tracking-tight"><%= client.nom %> <%= client.prenom %></h1>
+        <p class="text-sm text-[#55433d]"><%= client.email %></p>
+      </div>
+
+      <section>
+        <h2 class="text-lg font-medium mb-4">Comptes</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <% comptes.forEach(c => { %>
+            <div class="bg-white rounded-2xl p-5 shadow-sm">
+              <span class="text-xs text-[#55433d] uppercase block mb-1"><%= c.type_compte %></span>
+              <p class="text-sm font-mono mb-2"><%= c.numero_compte %></p>
+              <span class="text-2xl font-serif-num"><%= Number(c.solde).toFixed(2) %> DH</span>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-medium mb-4">Cartes</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <% cartes.forEach(c => { %>
+            <div class="bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between">
+              <span class="text-sm font-mono"><%= c.numero_carte %></span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-[#f6f3f1] text-[#55433d]"><%= c.statut %></span>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-medium mb-4">Historique des interactions</h2>
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <% if (historique.length === 0) { %>
+            <p class="p-5 text-sm text-[#55433d]">Aucune interaction enregistrée.</p>
+          <% } else { %>
+            <% historique.forEach(h => { %>
+              <div class="p-4 border-b border-[#f0edeb] last:border-0">
+                <p class="text-sm"><%= h.description %></p>
+                <p class="text-xs text-[#55433d] mt-1"><%= h.dateAction %></p>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

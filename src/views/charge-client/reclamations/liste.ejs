@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Réclamations - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar-charge', { active: 'reclamations' }) %>
+  <div class="pl-64">
+    <main class="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Support</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Réclamations clients</h1>
+      </div>
+      <div class="flex flex-col gap-3">
+        <% const statutStyle = { ouverte: 'bg-[#f6f3f1] text-[#55433d]', en_cours: 'bg-[#fff3cd] text-[#856404]', resolue: 'bg-[#d4e8d0] text-[#3a4b39]', fermee: 'bg-[#e5e2e0] text-[#55433d]' }; %>
+        <% if (reclamations.length === 0) { %>
+          <div class="bg-white rounded-2xl p-6 shadow-sm"><p class="text-[#55433d] text-sm">Aucune réclamation.</p></div>
+        <% } %>
+        <% reclamations.forEach(r => { %>
+          <div class="bg-white rounded-2xl p-5 shadow-sm flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-sm"><%= r.sujet %></p>
+                <p class="text-xs text-[#55433d]">De <%= r.nom %> <%= r.prenom %> — <%= r.date_creation %></p>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-xs font-medium <%= statutStyle[r.statut] || 'bg-[#f6f3f1] text-[#55433d]' %>"><%= r.statut %></span>
+            </div>
+            <p class="text-sm text-[#55433d]"><%= r.description %></p>
+            <form action="/charge/reclamations/<%= r.id %>" method="POST" class="flex gap-2 pt-2 border-t border-[#f0edeb]">
+              <select name="statut" class="flex-1 h-10 px-3 rounded-lg bg-[#f6f3f1] text-sm">
+                <option value="en_cours">En cours</option>
+                <option value="resolue">Résolue</option>
+                <option value="fermee">Fermée</option>
+              </select>
+              <button type="submit" class="h-10 px-4 rounded-lg bg-[#99462a] text-white text-sm font-medium">Mettre à jour</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

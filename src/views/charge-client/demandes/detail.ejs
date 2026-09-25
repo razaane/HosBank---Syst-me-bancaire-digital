@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Demande #<%= demande.id %> - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar-charge', { active: 'demandes' }) %>
+  <div class="pl-64">
+    <main class="max-w-[800px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Demande #<%= demande.id %></span>
+        <h1 class="text-3xl font-serif-num tracking-tight"><%= demande.type_demande %></h1>
+        <p class="text-sm text-[#55433d]">De <%= demande.nom %> <%= demande.prenom %> — <%= demande.date_creation %></p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+        <div>
+          <span class="text-xs text-[#55433d] uppercase block mb-1">Statut actuel</span>
+          <span class="text-sm font-medium"><%= demande.statut %></span>
+        </div>
+
+        <form action="/charge/demandes/<%= demande.id %>" method="POST" class="flex flex-col gap-4 pt-3 border-t border-[#f0edeb]">
+          <div class="flex flex-col gap-2">
+            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Nouveau statut</label>
+            <select name="statut" required class="h-12 px-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]">
+              <option value="en_cours">En cours</option>
+              <option value="validee">Validée</option>
+              <option value="refusee">Refusée</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-xs uppercase tracking-wider text-[#55433d] font-medium">Commentaire (optionnel)</label>
+            <textarea name="commentaire" rows="3" class="p-4 rounded-xl bg-[#f6f3f1] text-sm focus:outline-none focus:ring-1 focus:ring-[#99462a]"></textarea>
+          </div>
+          <button type="submit" class="h-12 rounded-xl bg-[#99462a] text-white font-medium hover:opacity-90 transition-all">Mettre à jour</button>
+        </form>
+      </div>
+
+      <section>
+        <h2 class="text-lg font-medium mb-4">Commentaires</h2>
+        <div class="flex flex-col gap-3">
+          <% if (commentaires.length === 0) { %>
+            <p class="text-sm text-[#55433d]">Aucun commentaire.</p>
+          <% } %>
+          <% commentaires.forEach(c => { %>
+            <div class="bg-white rounded-2xl p-4 shadow-sm">
+              <p class="text-sm"><%= c.contenu %></p>
+              <p class="text-xs text-[#55433d] mt-2"><%= c.nom %> <%= c.prenom %> — <%= c.date_creation %></p>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <a href="/charge/demandes" class="text-sm text-[#55433d] hover:text-[#99462a]">← Retour aux demandes</a>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../../partials/head') %>
+  <title>Mes clients - HosBank</title>
+</head>
+<body class="bg-[#fcf9f6] text-[#1c1c1a] antialiased">
+  <%- include('../../partials/sidebar-charge', { active: 'clients' }) %>
+  <div class="pl-64">
+    <main class="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 flex flex-col gap-8">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-[#99462a] uppercase tracking-widest font-semibold">Portefeuille</span>
+        <h1 class="text-3xl font-serif-num tracking-tight">Mes clients</h1>
+      </div>
+      <% if (clients.length === 0) { %>
+        <div class="bg-white rounded-2xl p-6 shadow-sm"><p class="text-[#55433d] text-sm">Aucun client affecté.</p></div>
+      <% } else { %>
+        <div class="flex flex-col gap-3">
+          <% clients.forEach(c => { %>
+            <a href="/charge/clients/<%= c.id %>" class="bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between gap-4 hover:bg-[#f6f3f1]/40 transition-colors">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-[#f6f3f1] flex items-center justify-center text-[#99462a] font-semibold"><%= c.nom.charAt(0).toUpperCase() %></div>
+                <div>
+                  <p class="font-medium text-sm"><%= c.nom %> <%= c.prenom %></p>
+                  <p class="text-xs text-[#55433d]"><%= c.email %></p>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-[#55433d] text-[20px]">chevron_right</span>
+            </a>
+          <% }) %>
+        </div>
+      <% } %>
+    </main>
+  </div>
+</body>
+</html>

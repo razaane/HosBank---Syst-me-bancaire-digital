@@ -29,6 +29,7 @@ app.use('/', require('./src/routes/compteRoutes'));
 app.use('/', require('./src/routes/carteRoutes'));;
 app.use('/', require('./src/routes/profilRoutes'));
 app.use('/', require('./src/routes/reclamationRoutes'));
+app.use('/', require('./src/routes/chargeClientRoutes'));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
