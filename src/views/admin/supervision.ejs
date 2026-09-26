@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Supervision - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    .sys-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
+    .log-terminal { background: #1a1a1a; color: #4af626; padding: 16px; font-family: monospace; font-size: 12px; border-radius: 4px; height: 200px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'supervision' }) %>
+  <h1 style="margin-bottom:24px;">Supervision Système</h1>
+  
+  <div class="sys-grid">
+    <div class="stat-card">
+        <h3 class="stat-label">Statut du Serveur</h3>
+        <p class="stat-value" style="color: #4B7A3D;">En ligne</p>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Temps de fonctionnement</h3>
+        <p class="stat-value" style="font-size: 24px;">14j 05h 22m</p>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Charge CPU</h3>
+        <p class="stat-value" style="font-size: 24px;">34%</p>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Mémoire vive utilisée</h3>
+        <p class="stat-value" style="font-size: 24px;">2.1 GB</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size: 16px; margin-bottom: 16px;">Journaux (Logs) en temps réel</h2>
+    <div class="log-terminal">
+[INFO] Server started successfully on port 3000
+[INFO] Database connection established
+[INFO] 12:45:01 - GET /admin/dashboard - 200 OK
+[INFO] 12:46:12 - POST /auth/login - 200 OK
+[WARN] 12:48:33 - Rate limit nearing threshold for IP 192.168.1.44
+[INFO] 12:50:05 - GET /admin/utilisateurs - 200 OK
+[ERROR] 12:52:10 - Failed login attempt for admin@hosbank.com
+[INFO] 12:53:40 - GET /admin/supervision - 200 OK
+    </div>
+  </div>
+</main></div>
+</body></html>

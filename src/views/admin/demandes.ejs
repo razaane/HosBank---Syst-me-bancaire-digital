@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Demandes - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'demandes' }) %>
+  <h1 style="margin-bottom:24px;">Demandes</h1>
+  <div class="card">
+    <table>
+      <thead><tr><th>Client</th><th>Type de Demande</th><th>Statut</th><th>Date</th></tr></thead>
+      <tbody>
+      <% if (typeof demandes !== 'undefined' && demandes.length > 0) { %>
+        <% demandes.forEach(d => { %>
+          <tr>
+            <td><%= d.prenom %> <%= d.nom %></td>
+            <td><%= d.type_demande %></td>
+            <td><span class="badge" style="background:#F0EEE6;"><%= d.statut %></span></td>
+            <td><%= new Date(d.date_creation).toLocaleDateString() %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="4">Aucune demande trouvée</td></tr>
+      <% } %>
+      </tbody>
+    </table>
+  </div>
+</main></div>
+</body></html>

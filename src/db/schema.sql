@@ -97,7 +97,6 @@ CREATE TABLE demandes (
     FOREIGN KEY (charge_client_id) REFERENCES charge_clients(id) ON DELETE SET NULL
 );
 
---still don't know to add this table or not
 CREATE TABLE commentaire_demandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     demande_id INT NOT NULL,
@@ -144,5 +143,6 @@ CREATE TABLE historiques_operation (
 
     FOREIGN KEY (compte_id) REFERENCES comptes_bancaires(id) ON DELETE CASCADE
 );
-
-
+UPDATE utilisateurs
+SET role = 'admin'
+WHERE id = 1;

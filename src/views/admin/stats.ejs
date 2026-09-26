@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><title>Statistiques - HosBank Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    .grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<%- include('../partials/adminNav', { page: 'stats' }) %>
+  <h1 style="margin-bottom:24px;">Statistiques Générales</h1>
+  
+  <div class="grid">
+    <div class="stat-card">
+        <h3 class="stat-label">Comptes Actifs</h3>
+        <p class="stat-value">1,245</p>
+        <span style="font-size: 12px; color: #4B7A3D;">+12% (Ce mois)</span>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Volume Transactions (30j)</h3>
+        <p class="stat-value">4.5M MAD</p>
+        <span style="font-size: 12px; color: #4B7A3D;">+8% (Ce mois)</span>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Nouveaux Clients (30j)</h3>
+        <p class="stat-value">128</p>
+        <span style="font-size: 12px; color: #B3532E;">-2% (Ce mois)</span>
+    </div>
+    <div class="stat-card">
+        <h3 class="stat-label">Cartes Émises</h3>
+        <p class="stat-value">3,102</p>
+        <span style="font-size: 12px; color: #4B7A3D;">+5% (Ce mois)</span>
+    </div>
+  </div>
+
+  <div class="card" style="min-height: 300px;">
+    <h2 style="font-size: 16px; margin-bottom: 16px;">Croissance mensuelle</h2>
+    <div style="height: 250px; background: #fafafa; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px;">
+        [Graphique d'évolution des comptes et volume - Espace réservé pour intégration Chart.js]
+    </div>
+  </div>
+</main></div>
+</body></html>
