@@ -4,7 +4,7 @@ const router = express.Router()
 const { authMiddleware } = require('../middlewares/authMiddleware')
 const { requireRole } = require('../middlewares/roleMiddleware')
 
-const { listUsers,  createUser,  updateUser, toggleUser, listCartes, listDemandes,updateRole, listComptes, listVirements, updateCarte, updateCompte, getSupervision, getAffectation, getReclamations, getStats }= require('../controllers/adminController')
+const { listUsers,  createUser,  updateUser, toggleUser, listCartes, listDemandes,updateRole, listComptes, listVirements, updateCarte, updateCompte, getSupervision, getAffectation, getReclamations, getStats ,affecterClientRoute }= require('../controllers/adminController')
 
 router.get('/admin/utilisateurs', authMiddleware, requireRole('admin'), listUsers)
 
@@ -32,6 +32,7 @@ router.get('/admin/supervision', authMiddleware, requireRole('admin'), getSuperv
 router.get('/admin/affectation', authMiddleware, requireRole('admin'), getAffectation)
 router.get('/admin/reclamations', authMiddleware, requireRole('admin'), getReclamations)
 router.get('/admin/stats', authMiddleware, requireRole('admin'), getStats)
+router.post('/admin/affectation', authMiddleware, requireRole('admin'), affecterClientRoute);
 
 module.exports = router
 

@@ -51,7 +51,6 @@ async function toggleUser(req, res) {
       console.log('broatha who give him')
     }
   } catch (err) {
-    console.error('❌ Erreur toggleUser:', err);
     res.status(500).send('Erreur: ' + err.message);
   }
 }
@@ -183,16 +182,17 @@ async function getSupervision(req, res) {
 
 async function getAffectation(req, res) {
   try {
-   
-    res.render('admin/affectation')
+    const clients = await adminService.getClientsNonAffectes();
+    const chargesClients = await adminService.getChargesClients();
 
-  } catch (error)
-   {
+    res.render('admin/affectation', { clients, chargesClients })
+
+  } catch (error) {
     console.error(error)
-
     res.status(500).send('error in affevtation')
   }
 }
+
 
 async function getReclamations(req, res) {
   try {
@@ -225,9 +225,21 @@ async function getReclamations(req, res) {
   }
 }
 
+async function affecterClientRoute(req, res) {
+  try {
+    const { clientId, chargeClientId } = req.body;
+    await adminService.affecterClient(clientId, chargeClientId);
+    res.redirect('/admin/affectation');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erreur lors de l\'affectation');
+  }
+}
+
 module.exports={
   listUsers,createUser,updateUser,toggleUser,updateRole,
   updateCarte,updateCompte,listComptes,listCartes,affecterClient,
   listDemandes,listVirements,getSupervision,
-  getAffectation, getReclamations, getStats
+  getAffectation, getReclamations, getStats ,
+  affecterClientRoute
 }

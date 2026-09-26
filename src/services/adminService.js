@@ -45,21 +45,17 @@ async function toggleUserActif(id) {
   try {
     const result = await userRepository.toggleActif(id);
     const user = await userRepository.findById(id);
-    console.log('🔍 toggleUserActif - user après toggle:', user); // temporaire
 
     if (user && user.actif && user.role === 'client') {
       const comptesExistants = await compteRepository.findByClientId(id);
-      console.log('🔍 comptes existants:', comptesExistants.length); // temporaire
       if (comptesExistants.length === 0) {
         const compteId = await compteRepository.createCompteInitial(id);
         await carteRepository.createCarteInitiale(compteId);
-        console.log('✅ Compte + carte créés pour client', id); // temporaire
       }
     }
 
     return result;
   } catch (err) {
-    console.error('❌ Erreur dans toggleUserActif:', err); // temporaire
     throw err;
   }
 }
@@ -128,6 +124,15 @@ async function updateCompteStatut(compteId, statut) {
 
 }
 
+async function getClientsNonAffectes() {
+  const clients = await userRepository.findAllClients();
+  return clients.filter(c => !c.charge_client_id);
+}
+
+async function getChargesClients() {
+  return await userRepository.findAllChargeClients();
+}
+
 module.exports={
   getUseres,
   updateUser,
@@ -140,5 +145,8 @@ module.exports={
   changeUserRole,
   affecterClient,
   getAllComptes,
-  updateCompteStatut
+  updateCompteStatut,
+  getClientsNonAffectes,
+  getChargesClients
+
 }

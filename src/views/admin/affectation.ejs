@@ -14,17 +14,19 @@
         <div style="flex: 1; min-width: 250px;">
             <label style="display:block; font-size:13px; color:var(--text-muted); margin-bottom:6px;">Client (Non assigné)</label>
             <select name="clientId" style="width: 100%; border-radius: 0; padding: 8px;">
-                <option value="">-- Sélectionner un client --</option>
-                <option value="1">Jean Dupont (ID: C001)</option>
-                <option value="2">Karim Benz (ID: C002)</option>
-            </select>
+              <option value="">-- Sélectionner un client --</option>
+              <% clients.forEach(c => { %>
+                <option value="<%= c.id %>"><%= c.nom %> <%= c.prenom %></option>
+              <% }) %>
+          </select>
         </div>
         <div style="flex: 1; min-width: 250px;">
             <label style="display:block; font-size:13px; color:var(--text-muted); margin-bottom:6px;">Chargé de Clientèle</label>
             <select name="chargeClientId" style="width: 100%; border-radius: 0; padding: 8px;">
                 <option value="">-- Sélectionner un chargé --</option>
-                <option value="10">Marie Curie (ID: CH01)</option>
-                <option value="11">Ahmed Alami (ID: CH02)</option>
+                <% chargesClients.forEach(cc => { %>
+                  <option value="<%= cc.id %>"><%= cc.nom %> <%= cc.prenom %> (<%= cc.matricule %>)</option>
+                <% }) %>
             </select>
         </div>
         <div>
@@ -46,22 +48,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-            <td>25/09/2026</td>
-            <td>Salma Alaoui</td>
-            <td>Marie Curie</td>
-            <td>Admin Principal</td>
-            <td><button class="btn-outline">Révoquer</button></td>
-        </tr>
-        <tr>
-            <td>22/09/2026</td>
-            <td>Rachid Taha</td>
-            <td>Ahmed Alami</td>
-            <td>Admin Principal</td>
-            <td><button class="btn-outline">Révoquer</button></td>
-        </tr>
+        <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Historique non disponible pour le moment</td></tr>
       </tbody>
     </table>
-  </div>
-</main></div>
-</body></html>
+</div>
+</main>
+</div>
+</body>
+</html>
