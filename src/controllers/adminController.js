@@ -41,19 +41,18 @@ async function createUser(req, res) {
 }
 
 
- async function toggleUser(req, res) {
+async function toggleUser(req, res) {
   try {
     if (req.params.id !== req.session.userId){
-
-    await adminService.toggleUserActif(req.params.id) 
-    return res.redirect('/admin/utilisateurs')
-  }
-      else {
-        console.log('broatha who give him')
-      }
-  } catch (error) {
-    console.error(error)
-    res.status(400).send('Erreur during changing status')
+      await adminService.toggleUserActif(req.params.id) 
+      return res.redirect('/admin/utilisateurs')
+    }
+    else {
+      console.log('broatha who give him')
+    }
+  } catch (err) {
+    console.error('❌ Erreur toggleUser:', err);
+    res.status(500).send('Erreur: ' + err.message);
   }
 }
 

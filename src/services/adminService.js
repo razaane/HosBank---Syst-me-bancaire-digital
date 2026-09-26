@@ -42,7 +42,26 @@ const virementRepository = require('../repositories/virementRepository')
 }
 
 async function toggleUserActif(id) {
-  return userRepository.toggleActif(id)
+  try {
+    const result = await userRepository.toggleActif(id);
+    const user = await userRepository.findById(id);
+    console.log('🔍 toggleUserActif - user après toggle:', user); // temporaire
+
+    if (user && user.actif && user.role === 'client') {
+      const comptesExistants = await compteRepository.findByClientId(id);
+      console.log('🔍 comptes existants:', comptesExistants.length); // temporaire
+      if (comptesExistants.length === 0) {
+        const compteId = await compteRepository.createCompteInitial(id);
+        await carteRepository.createCarteInitiale(compteId);
+        console.log('✅ Compte + carte créés pour client', id); // temporaire
+      }
+    }
+
+    return result;
+  } catch (err) {
+    console.error('❌ Erreur dans toggleUserActif:', err); // temporaire
+    throw err;
+  }
 }
 
 

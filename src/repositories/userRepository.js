@@ -25,17 +25,20 @@ async function countUsers() {
 }
 
 async function createUser(userData) {
-  const { nom, prenom, email, motDePasse, role, tokenVerification } = userData
+  const { nom, prenom, email, motDePasse, role, tokenVerification, telephone } = userData;
   const [result] = await db.query(
-    `INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, token_verification)
-     VALUES (?, ?, ?, ?, ?, ?)`, 
-    [nom, prenom, email, motDePasse, role || 'client', tokenVerification]
+    `INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, token_verification, telephone, actif)
+     VALUES (?, ?, ?, ?, ?, ?, ?, FALSE)`,
+    [nom, prenom, email, motDePasse, role || 'client', tokenVerification, telephone]
   );
   return result.insertId;
 }
 
-async function createClient(userId) {
-  await db.query('INSERT INTO clients (id) VALUES (?)', [userId]);
+async function createClient(userId, { adresse, dateNaissance, cin }) {
+  await db.query(
+    'INSERT INTO clients (id, adresse, date_naissance, cin) VALUES (?, ?, ?, ?)',
+    [userId, adresse, dateNaissance, cin]
+  );
 }
 
 async function verifyUserToken(token) {

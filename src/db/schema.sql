@@ -143,5 +143,6 @@ CREATE TABLE historiques_operation (
 
     FOREIGN KEY (compte_id) REFERENCES comptes_bancaires(id) ON DELETE CASCADE
 );
-
-
+UPDATE utilisateurs
+SET role = 'admin'
+WHERE id = 1;

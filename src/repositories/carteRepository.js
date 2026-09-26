@@ -32,5 +32,13 @@ async function updateStatut(carteId, statut) {
   const db = require('../config/connexion')
   await db.query('UPDATE cartes SET statut = ? WHERE id = ?', [statut, carteId])
 }
-
-module.exports = { findByClientId, findActiveByClientId ,findAllCartes,updateStatut}
+async function createCarteInitiale(compteId) {
+  const numero = '4402' + Math.floor(Math.random() * 1e12).toString().padStart(12, '0');
+  const [result] = await db.query(
+    `INSERT INTO cartes (compte_id, numero_carte, type_carte, statut, date_expiration)
+     VALUES (?, ?, 'physique', 'active', DATE_ADD(NOW(), INTERVAL 3 YEAR))`,
+    [compteId, numero]
+  );
+  return result.insertId;
+}
+module.exports = { findByClientId, findActiveByClientId,findAllCartes,updateStatut, createCarteInitiale };
