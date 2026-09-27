@@ -1,246 +1,222 @@
-# HosBank
+# HosBank — Application Bancaire Digitale
 
-Application bancaire web permettant aux clients de consulter leurs comptes, gérer leurs bénéficiaires, effectuer des virements et suivre leurs demandes. Le projet comprend trois espaces : **Client**, **Chargé Client** et **Administrateur**.
+Application web bancaire permettant à un client de consulter ses comptes, gérer ses bénéficiaires, effectuer des virements et suivre ses demandes, avec un espace dédié pour les chargés de clientèle et un espace d'administration complet.
 
-Projet réalisé dans le cadre d'un travail de groupe. Deadline : **25/09/2026**.
+## Sommaire
 
----
-
-## Table des matières
-
-- [Description du projet](#description-du-projet)
-- [Fonctionnalités](#fonctionnalités)
+- [Contexte](#contexte)
 - [Stack technique](#stack-technique)
 - [Architecture](#architecture)
-- [Prérequis](#prérequis)
-- [Installation](#installation)
 - [Structure du projet](#structure-du-projet)
-- [Scripts disponibles](#scripts-disponibles)
-- [Livrables](#livrables)
-- [Équipe](#équipe)
+- [Base de données](#base-de-données)
+- [Installation](#installation)
+- [Comptes de test](#comptes-de-test)
+- [Fonctionnalités par espace](#fonctionnalités-par-espace)
+- [Sécurité](#sécurité)
+- [Conventions de nommage](#conventions-de-nommage)
+- [Travail restant / pistes d'amélioration](#travail-restant--pistes-damélioration)
 
 ---
 
-## Description du projet
+## Contexte
 
-HosBank est une application bancaire web construite selon une architecture **N-tiers** (UI / Métier / Persistance), sans ORM, avec authentification par session et vérification d'adresse e-mail. Elle répond à un besoin de gestion complète du parcours bancaire d'un client (consultation, demandes, virements) tout en offrant des outils de traitement et de supervision aux chargés de clientèle et aux administrateurs.
+HosBank est une application bancaire web avec trois espaces utilisateurs :
 
-## Fonctionnalités
-
-### Espace Client
-- Authentification avec vérification de l'adresse e-mail
-- Tableau de bord et consultation des soldes
-- Consultation des comptes bancaires
-- Demande d'ouverture d'un compte d'épargne
-- Demande / consultation du RIB
-- Ajout et gestion des bénéficiaires
-- Virements
-- Historique des opérations
-- Demande de carte virtuelle
-- Opposition sur carte
-- Demande de recalcul / renouvellement du PIN
-- Dépôt de réclamation
-- Suivi de l'état des demandes
-- Gestion des informations personnelles
-
-### Espace Chargé Client
-- Consultation des clients affectés
-- Consultation des comptes et demandes des clients
-- Traitement des demandes : RIB, comptes d'épargne, cartes virtuelles, recalcul PIN, oppositions de cartes
-- Consultation et traitement des réclamations
-- Modification du statut d'une demande
-- Ajout de commentaires / réponses au client
-- Historique des interactions avec les clients
-
-### Espace Administrateur
-- Gestion des utilisateurs (création, modification, désactivation)
-- Gestion des rôles : Client, Chargé Client, Administrateur
-- Affectation des clients aux chargés clients
-- Gestion des comptes bancaires et des cartes
-- Consultation des virements et opérations
-- Consultation de toutes les demandes et réclamations
-- Supervision des activités des chargés clients
-- Statistiques générales de la plateforme
+- **Client** : consultation des comptes, virements, bénéficiaires, cartes, demandes diverses, réclamations.
+- **Chargé de clientèle** : suivi des clients affectés, traitement des demandes et réclamations.
+- **Administrateur** : gestion des utilisateurs, des rôles, affectation clients ↔ chargés, supervision globale.
 
 ## Stack technique
 
 | Couche | Technologie |
 |---|---|
 | Backend | Node.js + Express.js |
-| Frontend | EJS + HTML / CSS / JavaScript |
-| Base de données | MySQL |
-| Persistance | SQL direct (`mysql2`), sans ORM |
-| CSS | Bootstrap |
-| Authentification | Sessions (`express-session`) + vérification e-mail |
-| Autorisation | Gestion des rôles et permissions (middlewares) |
+| Frontend | EJS + Tailwind CSS (CDN) |
+| Base de données | MySQL (driver `mysql2/promise`) |
+| Authentification | `express-session` + `bcrypt` |
+| Persistance | Requêtes SQL directes (sans ORM), requêtes préparées |
+| Autres dépendances | `dotenv`, `uuid` (tokens de vérification email) |
 
 ## Architecture
 
-Le projet suit une architecture **N-tiers** :
+Le projet suit une architecture **N-tiers** stricte. Chaque requête traverse les couches dans cet ordre :
 
 ```
-UI (routes + views EJS)
-    ↓
-Métier (services)
-    ↓
-Persistance (repositories → requêtes SQL → MySQL)
+routes/  →  controllers/  →  services/  →  repositories/  →  models/ + db
 ```
 
-- **`routes/`** — définit les endpoints et délègue aux controllers
-- **`controllers/`** — reçoit la requête HTTP, appelle les services, renvoie la réponse
-- **`services/`** — logique métier (règles, validations métier)
-- **`repositories/`** — requêtes SQL brutes vers MySQL
-- **`models/`** — structure des entités (Client, Compte, Virement, etc.)
-- **`middlewares/`** — authentification, contrôle des rôles, gestion des erreurs
-- **`views/`** — templates EJS, séparés par espace (client / chargé-client / admin)
+| Couche | Rôle |
+|---|---|
+| `routes/` | Associe une URL + méthode HTTP à une fonction de controller. |
+| `controllers/` | Lit `req`/`res`, extrait les données, appelle le service, renvoie la réponse (`res.render` ou `res.redirect`). Ne contient jamais de SQL. |
+| `services/` | Contient la logique métier : validations, règles, transactions. |
+| `repositories/` | Seule couche autorisée à écrire du SQL. Ne connaît jamais `req`/`res`. |
+| `models/` | Classes JS représentant la forme d'une donnée (conversion `snake_case` SQL → `camelCase` JS). |
 
-## Prérequis
+Les opérations sensibles impliquant plusieurs écritures liées (virement, opposition de carte) utilisent des **transactions SQL** (`beginTransaction` / `commit` / `rollback`) pour garantir l'intégrité des données.
 
-- Node.js (v18+ recommandé) et npm
-- MySQL Server (v8+)
-- Git
+## Structure du projet
+
+```
+HosBank/
+├── src/
+│   ├── config/          # Connexion MySQL (pool mysql2/promise)
+│   ├── controllers/      # Un fichier par ressource (client, admin, charge-client, auth)
+│   ├── services/
+│   ├── repositories/
+│   ├── models/
+│   ├── routes/
+│   ├── middlewares/       # authMiddleware, roleMiddleware
+│   ├── views/
+│   │   ├── partials/       # head, sidebar (client / charge / admin)
+│   │   ├── auth/
+│   │   ├── client/
+│   │   ├── charge-client/
+│   │   └── admin/
+│   └── db/
+│       └── schema.sql
+├── public/               # Fichiers statiques
+├── app.js                # Point d'entrée du serveur
+├── seed.js               # Script de peuplement de données de test
+├── .env                  # Variables d'environnement (non versionné)
+└── package.json
+```
+
+## Base de données
+
+Schéma relationnel MySQL (`src/db/schema.sql`). Tables principales :
+
+| Table | Description |
+|---|---|
+| `utilisateurs` | Compte de connexion (email, mot de passe hashé, rôle, statut actif/en attente). |
+| `clients` | Infos complémentaires d'un client (adresse, CIN, date de naissance, chargé affecté). |
+| `charge_clients` | Infos complémentaires d'un chargé de clientèle (matricule). |
+| `comptes_bancaires` | Comptes (courant / épargne), solde, RIB, statut. |
+| `cartes` | Cartes physiques/virtuelles liées à un compte. |
+| `beneficiaires` | Bénéficiaires enregistrés par un client. |
+| `virements` | Historique des virements (montant, motif, statut). |
+| `demandes` | Table générique pour carte virtuelle, opposition, renouvellement PIN, ouverture épargne, RIB — le détail spécifique est stocké en JSON dans `donnees_specifiques`. |
+| `reclamations` | Réclamations client, traitées par un chargé de clientèle. |
+| `commentaire_demandes` | Commentaires d'un chargé de clientèle sur une demande. |
+| `historiques_interaction` | Historique des interactions chargé ↔ client. |
+
+**Rôles** (`utilisateurs.role`) : `client`, `charge_client`, `admin`.
+
+### Workflow d'inscription
+
+1. Le client s'inscrit via `/register` (nom, prénom, email, mot de passe, téléphone, CIN, date de naissance, adresse).
+2. Le compte est créé avec `actif = FALSE` — connexion refusée tant qu'il n'est pas validé.
+3. Un administrateur active le compte depuis `/admin/utilisateurs`.
+4. À l'activation, le système crée **automatiquement** le premier compte courant (avec RIB généré) et la première carte physique du client — aucune double création si le client est désactivé puis réactivé.
 
 ## Installation
 
-### 1. Cloner le repo
-
 ```bash
-git clone https://github.com/<ton-user>/hosbank.git
-cd hosbank
-```
-
-### 2. Installer les dépendances
-
-Si tu clones le repo et que `package.json` existe déjà :
-
-```bash
+git clone <repo-url>
+cd HosBank
 npm install
 ```
 
-Liste des dépendances utilisées dans ce projet (déjà présentes dans `package.json`, données ici pour référence) :
+Créer un fichier `.env` à la racine (voir `.env.example`) :
 
-| Package | Rôle |
-|---|---|
-| `express` | Framework serveur |
-| `ejs` | Moteur de templates pour les vues |
-| `mysql2` | Driver MySQL (requêtes SQL directes) |
-| `express-session` | Gestion des sessions (authentification) |
-| `express-mysql-session` | Stockage des sessions dans MySQL (persistant, pas en RAM) |
-| `bcrypt` | Hachage des mots de passe |
-| `dotenv` | Chargement des variables d'environnement (`.env`) |
-| `nodemailer` | Envoi d'e-mails (vérification d'adresse e-mail) |
-| `uuid` | Génération de tokens uniques (vérification e-mail) |
-| `express-validator` | Validation des données côté backend |
-| `method-override` | Permet PUT/DELETE dans les formulaires HTML |
-| `connect-flash` | Messages flash (succès/erreur) entre les pages |
-| `helmet` | En-têtes HTTP de sécurité |
-| `nodemon` *(dev)* | Auto-reload du serveur en développement |
-
-Bootstrap est chargé via CDN directement dans les vues EJS (pas de `npm install` nécessaire) :
-
-```html
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 ```
-
-Commande d'installation complète (si tu repars de zéro, sans `package.json`) :
-
-```bash
-npm install express ejs mysql2 express-session express-mysql-session bcrypt dotenv nodemailer uuid express-validator method-override connect-flash helmet
-npm install --save-dev nodemon
-```
-
-### 3. Créer la base de données MySQL
-
-Connecte-toi à MySQL :
-
-```bash
-sudo mysql
-```
-
-Puis exécute :
-
-```sql
-CREATE DATABASE hosbank;
-CREATE USER 'hosbank_user'@'localhost' IDENTIFIED BY 'TonMotDePasse';
-GRANT ALL PRIVILEGES ON hosbank.* TO 'hosbank_user'@'localhost';
-FLUSH PRIVILEGES;
-EXIT;
-```
-
-### 4. Configurer les variables d'environnement
-
-Crée un fichier `.env` à la racine du projet (voir `.env.example`) :
-
-```env
 PORT=3000
 DB_HOST=localhost
-DB_USER=hosbank_user
-DB_PASSWORD=TonMotDePasse
+DB_USER=...
+DB_PASSWORD=...
 DB_NAME=hosbank
-SESSION_SECRET=change_this_secret
-EMAIL_HOST=smtp.example.com
-EMAIL_PORT=587
-EMAIL_USER=ton_email@example.com
-EMAIL_PASSWORD=ton_mot_de_passe_app
+SESSION_SECRET=...
 ```
 
-⚠️ Ne jamais commit le fichier `.env` (il doit être dans `.gitignore`).
-
-### 5. Importer le schéma de base de données
+Créer la base et importer le schéma :
 
 ```bash
-mysql -u hosbank_user -p hosbank < src/db/schema.sql
+mysql -u <user> -p -e "CREATE DATABASE hosbank;"
+mysql -u <user> -p hosbank < src/db/schema.sql
 ```
 
-### 6. Lancer l'application
+Peupler des données de test :
 
 ```bash
+node seed.js
+```
+
+Lancer le serveur :
+
+```bash
+node app.js
+# ou
 npm run dev
 ```
 
 L'application est accessible sur `http://localhost:3000`.
 
-## Structure du projet
+## Comptes de test
 
-```
-hosbank/
-├── src/
-│   ├── routes/
-│   ├── controllers/
-│   ├── services/
-│   ├── repositories/
-│   ├── models/
-│   ├── middlewares/
-│   ├── config/
-│   ├── utils/
-│   └── db/
-├── views/
-│   ├── client/
-│   ├── charge-client/
-│   ├── admin/
-│   ├── partials/
-│   └── auth/
-├── public/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── .env.example
-├── .gitignore
-├── package.json
-└── README.md
-```
+Créés par `seed.js` (mot de passe pour tous : `password123`) :
 
-## Scripts disponibles
-
-| Commande | Description |
+| Email | Rôle |
 |---|---|
-| `npm run dev` | Lance le serveur en mode développement (auto-reload) |
-| `npm start` | Lance le serveur en mode production |
+| `yassine@test.com` | admin |
+| `amine.charge@test.com` | charge_client |
+| `salma@test.com` | client |
 
-## Livrables
+## Fonctionnalités par espace
 
-- Code source : lien GitHub (ce repo)
-- Planification : lien JIRA
-- Documentation technique : ce fichier README
-- Maquette Figma : lien à ajouter
-- Diagramme de classe (entités) : lien / fichier à ajouter
+### Espace Client
+- Authentification (inscription avec activation admin, connexion, vérification email, sessions)
+- Tableau de bord avec vue synthétique des soldes
+- Consultation des comptes bancaires et des RIB
+- Demande d'ouverture de compte d'épargne
+- Gestion des bénéficiaires (ajout / liste / suppression)
+- Virements avec vérification du solde en transaction + historique
+- Consultation des cartes
+- Demande de carte virtuelle
+- Opposition sur carte (blocage immédiat, transaction atomique)
+- Recalcul / renouvellement du PIN
+- Suivi générique de l'état de toutes les demandes
+- Dépôt et suivi des réclamations
+- Gestion du profil (téléphone, email, mot de passe)
+
+### Espace Chargé de Clientèle
+- Consultation des clients affectés
+- Détail d'un client (comptes, cartes, historique des interactions)
+- Traitement des demandes (carte virtuelle, opposition, PIN, épargne, RIB) : changement de statut + commentaire
+- Consultation et traitement des réclamations
+
+### Espace Administrateur
+- Gestion des utilisateurs et des rôles (client / charge_client / admin)
+- Activation des comptes en attente (avec création automatique compte + carte)
+- Affectation clients ↔ chargés de clientèle
+- Gestion des comptes bancaires et des cartes (changement de statut)
+- Consultation des virements, demandes et réclamations globales
+- Supervision des chargés de clientèle et statistiques de la plateforme
+
+## Sécurité
+
+- Mots de passe hashés avec `bcrypt`.
+- Sessions gérées via `express-session` (secret en `.env`, jamais commité).
+- Requêtes SQL exclusivement préparées (`?` + tableau de valeurs) — protection contre les injections SQL.
+- Middlewares `authMiddleware` (vérifie la session) et `requireRole(role)` (contrôle d'accès par rôle) sur toutes les routes sensibles.
+- Comptes clients inactifs tant qu'ils ne sont pas validés par un administrateur.
+- Opérations financières critiques (virement, opposition de carte) protégées par transaction SQL avec rollback en cas d'échec.
+
+## Conventions de nommage
+
+- **Fichiers JS** (controllers, services, repositories) : `camelCase`, singulier (`beneficiaireController.js`).
+- **Classes / models** : `PascalCase`, singulier (`Beneficiaire.js`).
+- **Tables SQL** : voir `schema.sql` (majoritairement au pluriel : `beneficiaires`, `virements`, `comptes_bancaires`).
+- **Colonnes de clé étrangère** : toujours singulier + `_id` (`client_id`, `compte_id`).
+- **Routes REST** : pluriel (`/beneficiaires`, `/virements`, `/comptes`).
+- **Conversion SQL ↔ JS** : les models convertissent le `snake_case` des colonnes SQL en `camelCase` pour l'usage JS.
+
+## Travail restant / pistes d'amélioration
+
+- Historique des affectations clients ↔ chargés (table dédiée à créer pour tracer qui affecte quoi et quand).
+- Génération de RIB au format PDF téléchargeable.
+- Notifications par email lors du traitement d'une demande.
+- Tests automatisés (actuellement tests manuels uniquement).
+
+---
+
+*Projet réalisé dans le cadre d'un exercice pédagogique — architecture N-tiers, Node.js/Express, MySQL, EJS.*
