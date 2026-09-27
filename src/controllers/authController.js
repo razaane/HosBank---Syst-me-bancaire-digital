@@ -21,20 +21,20 @@ async function loginController(req, res) {
 
     req.session.userId = user.id
 
-  req.session.role = user.role
+    req.session.role = user.role
 
-        if (user.role === 'admin') {
-
-        res.redirect('/admin/utilisateurs')
+    if (user.role === 'admin') {
+      res.redirect('/admin/utilisateurs')
+    } else if (user.role === 'charge_client') {
+      res.redirect('/charge/clients')
     } else {
       res.redirect('/dashboard')
     }
   } catch (error) {
     console.error('Login error', error.message)
-
-      res.render('auth/login', { error: error.message })
+    res.render('auth/login', { error: error.message })
   }
-  }
+}
 
 async function verifyEmailController(req, res) {
   try {
